@@ -19,7 +19,8 @@ class Pipeline():
                  input_features: List[Feature],
                  target_feature: Feature,
                  split=0.8,
-                 ):
+                 ): # Add return type 
+        """Create a constructor for the pipeline class."""
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
@@ -33,6 +34,7 @@ class Pipeline():
             raise ValueError("Model type must be regression for continuous target feature")
 
     def __str__(self):
+        """Create a method for returning the pipeline."""
         return f"""
 Pipeline(
     model={self._model.type},
@@ -45,6 +47,7 @@ Pipeline(
 
     @property
     def model(self):
+        """Make a property for self model."""
         return self._model
 
     @property
@@ -71,10 +74,12 @@ Pipeline(
         artifacts.append(self._model.to_artifact(name=f"pipeline_model_{self._model.type}"))
         return artifacts
     
-    def _register_artifact(self, name: str, artifact):
+    def _register_artifact(self, name: str, artifact): # Add return type
+        """Create a method for registering an artifcact."""
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):
+    def _preprocess_features(self): # Add return type
+        """Create a method for preprocessing the features."""
         (target_feature_name, target_data, artifact) = preprocess_features([self._target_feature], self._dataset)[0]
         self._register_artifact(target_feature_name, artifact)
         input_results = preprocess_features(self._input_features, self._dataset)
@@ -85,6 +90,7 @@ Pipeline(
         self._input_vectors = [data for (feature_name, data, artifact) in input_results]
 
     def _split_data(self):
+        """Create a method for splitting the data into training and testing sets."""
         # Split the data into training and testing sets
         split = self._split
         self._train_X = [vector[:int(split * len(vector))] for vector in self._input_vectors]
@@ -93,14 +99,17 @@ Pipeline(
         self._test_y = self._output_vector[int(split * len(self._output_vector)):]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+        """Returns combined vectors."""
         return np.concatenate(vectors, axis=1)
 
-    def _train(self):
+    def _train(self): # Add return type
+        """Create a method for training the data."""
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate(self):
+    def _evaluate(self): # Add return type
+        """Evaluate the model."""
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         self._metrics_results = []
@@ -110,7 +119,8 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self): # Add return type
+        """Create a method for executing the previous methods."""
         self._preprocess_features()
         self._split_data()
         self._train()
