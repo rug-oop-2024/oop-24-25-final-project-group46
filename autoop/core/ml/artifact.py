@@ -1,5 +1,4 @@
 import base64
-from abc import abstractmethod
 
 from pydantic import BaseModel, Field
 
@@ -13,15 +12,14 @@ class Artifact(BaseModel):
     type: str = Field(default=None)
     tags: list = Field(default=None)
 
-    @abstractmethod
-    def read(self):
-        """Create an abstract method for reading the data."""
-        return
-
-    @abstractmethod
-    def save(self, data):
-        """Create an abstract method for saving the data."""
-        return
+    def read(self) -> bytes:
+        """Create a method for reading the data."""
+        return self.data
+    
+    def save(self, data: bytes) -> bytes:
+        """Create a method for saving the data."""
+        self.data = data
+        return data
     
     def get_asset_id(self) -> str:
         """Generates an id of an asset."""
