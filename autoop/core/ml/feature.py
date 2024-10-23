@@ -6,8 +6,8 @@ import numpy as np
 from autoop.core.ml.dataset import Dataset
 
 class Feature(BaseModel):
-    name: str
-    type: str
+    name: str = Field(default=None)
+    type: str = Field(default=None)
     
     def __str__(self):
         raise NotImplementedError("To be implemented.")
