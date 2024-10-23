@@ -4,8 +4,12 @@ import numpy as np
 
 METRICS = [
     "mean_squared_error",
+    "mean_absolute_error",
+    "root_mean_squared_error"
     "accuracy",
-] # add the names (in strings) of the metrics you implement
+    "precision",
+    "recall"
+]
 
 def get_metric(name: str):
     # Factory function to get a metric by name.
