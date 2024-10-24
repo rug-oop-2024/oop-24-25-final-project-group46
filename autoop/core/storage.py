@@ -4,13 +4,14 @@ from typing import List, Union
 from glob import glob
 
 class NotFoundError(Exception):
-    def __init__(self, path):
+    def __init__(self, path): # Add return type and type hint for path
+        """Create a constructor for the NotFoundError class."""
         super().__init__(f"Path not found: {path}")
 
 class Storage(ABC):
 
     @abstractmethod
-    def save(self, data: bytes, path: str):
+    def save(self, data: bytes, path: str): # Add return type
         """
         Save data to a given path
         Args:
@@ -31,7 +32,7 @@ class Storage(ABC):
         pass
 
     @abstractmethod
-    def delete(self, path: str):
+    def delete(self, path: str): # Add return type
         """
         Delete data at a given path
         Args:
@@ -54,11 +55,13 @@ class Storage(ABC):
 class LocalStorage(Storage):
 
     def __init__(self, base_path: str="./assets"):
+        """Create constructor for the local storage class."""
         self._base_path = base_path
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)
 
-    def save(self, data: bytes, key: str):
+    def save(self, data: bytes, key: str): # Add return type
+        """Save the data in a new path."""
         path = self._join_path(key)
         if not os.path.exists(path):
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -66,27 +69,32 @@ class LocalStorage(Storage):
             f.write(data)
 
     def load(self, key: str) -> bytes:
+        """Load the data."""
         path = self._join_path(key)
         self._assert_path_exists(path)
         with open(path, 'rb') as f:
             return f.read()
 
-    def delete(self, key: str="/"):
+    def delete(self, key: str="/"): # Add return type
+        """Delete the path."""
         self._assert_path_exists(self._join_path(key))
         path = self._join_path(key)
         os.remove(path)
 
     def list(self, prefix: str) -> List[str]:
+        """Creates a list for storage."""
         path = self._join_path(prefix)
         self._assert_path_exists(path)
         keys = glob(path + "/**/*", recursive=True)
         return list(filter(os.path.isfile, keys))
 
-    def _assert_path_exists(self, path: str):
+    def _assert_path_exists(self, path: str): # Add return type
+        """Create method for when a path does not exist."""
         if not os.path.exists(path):
             raise NotFoundError(path)
     
     def _join_path(self, path: str) -> str:
+        """Create a method for finding a path."""
         return os.path.join(self._base_path, path)
 
 
