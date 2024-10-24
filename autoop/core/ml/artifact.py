@@ -27,6 +27,3 @@ class Artifact(BaseModel):
             raise ValueError("asset_path and version have to be set to generate an id.")
         encoded_path = base64.b64encode(self.asset_path()).decode()
         return f"{encoded_path}:{self.version}"
-    
-
-    pass
