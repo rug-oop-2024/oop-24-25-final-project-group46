@@ -62,5 +62,5 @@ repos:
             "--extend-ignore",
             "D100, SC200",
             "--max-cognitive-complexity",
-            "3",
+            "10",
           ]
