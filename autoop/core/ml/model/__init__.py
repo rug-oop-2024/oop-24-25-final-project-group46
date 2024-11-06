@@ -1,11 +1,12 @@
 """Create a constructor for the base model."""
-from autoop.core.ml.model.classification import (
-    DecisionTreeClassification, KNN, SupportVectorClassification
-)
+from autoop.core.ml.model.classification import (DecisionTreeClassification)
+from autoop.core.ml.model.classification import (KNN)
+from autoop.core.ml.model.classification import (SupportVectorClassification)
+
 from autoop.core.ml.model.base_model import Model
-from autoop.core.ml.model.regression import (
-    SupportVectorRegression, DecisionTreeRegression, MultipleLinearRegression
-)
+from autoop.core.ml.model.regression import (SupportVectorRegression)
+from autoop.core.ml.model.regression import (DecisionTreeRegression)
+from autoop.core.ml.model.regression import (MultipleLinearRegression)
 
 
 REGRESSION_MODELS = [
