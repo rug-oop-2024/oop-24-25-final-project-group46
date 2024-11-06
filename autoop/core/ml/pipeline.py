@@ -20,22 +20,26 @@ class Pipeline:
         dataset: Dataset,
         model: Model,
         input_features: List[Feature],
-        target_feat: Feature,
+        target_feature: Feature,
         split: float = 0.8,
     ) -> None:
         """Create a constructor for the pipeline class."""
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
-        self._target_feature = target_feat
+        self._target_feature = target_feature
         self._metrics = metrics
         self._artifacts = {}
         self._split = split
-        if target_feat.type == "categorical" and model.type != "classification":
+        self._check_type(target_feature, model)
+
+    
+    def _check_type(self, target_feature: Feature, model: Model) -> None:
+        if target_feature.type == "categorical" and model.type != "classification":
             raise ValueError(
                 "Model type must be classification for categorical target feat."
             )
-        if target_feat.type == "continuous" and model.type != "regression":
+        if target_feature.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature."
             )
