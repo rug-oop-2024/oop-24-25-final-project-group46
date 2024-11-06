@@ -81,9 +81,10 @@ class AutoMLSystem:
 
     @staticmethod
     def get_instance() -> "AutoMLSystem":
+        """Get the instance from the system."""
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
-                LocalStorage("./assets/objects"), 
+                LocalStorage("./assets/objects"),
                 Database(
                     LocalStorage("./assets/dbo")
                 )
