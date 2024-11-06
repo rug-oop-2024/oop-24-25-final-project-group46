@@ -20,7 +20,7 @@ class MultipleLinearRegression(Model):
         # Calculate (X^T * X)^(-1) * X^T * y
         xtx_inv = np.linalg.inv(x_t @ x_added_column)
         wei_and_int = xtx_inv @ (x_t @ ground_truth)
-        
+
         # Store the parameters (weights and intercept) for use in predictions.
         self._parameters["weights_and_intercept"] = wei_and_int
 
