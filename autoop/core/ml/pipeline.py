@@ -36,11 +36,11 @@ class Pipeline:
     def _check_type(self, target: Feature, model: Model) -> None:
         if target.type == "categorical" and model.type != "classification":
             raise ValueError(
-                "Model type must be classification for categorical target feat."
+                "Model type must be classification for categorical feature"
             )
         if target.type == "continuous" and model.type != "regression":
             raise ValueError(
-                "Model type must be regression for continuous target feature."
+                "Model type must be regression for continuous feature."
             )
 
     def __str__(self) -> str:
