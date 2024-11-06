@@ -37,4 +37,3 @@ class KNN(Model):
             most_common = Counter(k_nearest_labels).most_common(1)
             predictions.append(most_common[0][0])
         return predictions
-
