@@ -1,20 +1,14 @@
-
 from pydantic import BaseModel, Field
-from typing import Literal
-import numpy as np
 
-from autoop.core.ml.dataset import Dataset
-# zelf toegevoegd
-from autoop.functional.feature import detect_feature_types
+# self added
+
 
 class Feature(BaseModel):
+    """Feature class."""
+
     name: str = Field(default=None)
-    type: str = Field(default=None)
+    feature_type: str = Field(default=None)
 
     def __str__(self):
-        return f"Feature (name={self.name}, type={self.type})"
-    
-    
-
-    
-    
+        """Return the feature name plus type."""
+        return f"Feature (name={self.name}, type={self.feature_type})"
