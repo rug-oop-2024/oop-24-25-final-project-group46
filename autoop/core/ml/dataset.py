@@ -2,6 +2,7 @@ from autoop.core.ml.artifact import Artifact
 import pandas as pd
 import io
 
+
 class Dataset(Artifact):
     """Create a class for datasets."""
     def __init__(self, *args, **kwargs) -> None:
@@ -14,7 +15,7 @@ class Dataset(Artifact):
         name: str,
         asset_path: str,
         version: str = "1.0.0"
-        ) -> "Dataset":
+    ) -> "Dataset":
         """Create a static method for transferring the data correctly."""
         return Dataset(
             name=name,
@@ -22,7 +23,7 @@ class Dataset(Artifact):
             data=data.to_csv(index=False).encode(),
             version=version,
         )
-    
+
     def read(self) -> pd.DataFrame:
         """Create a method for reading the dataset."""
         bytes = super().read()
@@ -33,4 +34,6 @@ class Dataset(Artifact):
         """Create a method for saving the dataset."""
         bytes = data.to_csv(index=False).encode()
         return super().save(bytes)
+    
+
 
