@@ -98,7 +98,7 @@ class LocalStorage(Storage):
         """Create method for when a path does not exist."""
         if not os.path.exists(path):
             raise NotFoundError(path)
- 
+
     def _join_path(self, path: str) -> str:
         """Create method for finding a path."""
         return os.path.join(self._base_path, path)
