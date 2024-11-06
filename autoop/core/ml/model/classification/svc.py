@@ -3,7 +3,7 @@ from sklearn.svm import SVC
 from autoop.core.ml.model import Model
 
 
-class SupportVectorRegression(Model):
+class SupportVectorClassification(Model):
     """A wrapper for Support Vector Regression using scikit-learn's SVR."""
 
     def __init__(self, kernel: str = "rbf", parameters: dict = None) -> None:
