@@ -1,11 +1,11 @@
 from autoop.core.ml.model.classification import DecisionTreeClassification, KNN, SupportVectorClassification
 from autoop.core.ml.model.base_model import Model
-from autoop.core.ml.model.regression import MultipleLinearRegression, SVR, DecisionTreeRegression
+from autoop.core.ml.model.regression import SupportVectorRegression, DecisionTreeRegression, MultipleLinearRegression
 
 REGRESSION_MODELS = [
     "DecisionTreeRegression",
     "MultipleLinearRegression",
-    "SVR",
+    "SupportVectorRegression",
 ]  # add your models as str here
 
 CLASSIFICATION_MODELS = [
@@ -22,7 +22,7 @@ def get_model(model_name: str) -> Model:
     elif model_name == "MultipleLinearRegression":
         MultipleLinearRegression
     elif model_name == "SVR":
-        SVR
+        SupportVectorRegression
     elif model_name == "DecisionTreeClassification":
         DecisionTreeClassification
     elif model_name == "KNN":

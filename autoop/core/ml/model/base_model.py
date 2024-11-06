@@ -1,11 +1,11 @@
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 import numpy as np
 from copy import deepcopy
 from typing import Literal
 
-class Model(ABC, Artifact):
+class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
 
     def __init__(self, parameters: dict) -> None:
