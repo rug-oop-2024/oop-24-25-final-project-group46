@@ -1,6 +1,11 @@
-from autoop.core.ml.model.classification import DecisionTreeClassification, KNN, SupportVectorClassification
+from autoop.core.ml.model.classification import (
+    DecisionTreeClassification, KNN, SupportVectorClassification
+)
 from autoop.core.ml.model.base_model import Model
-from autoop.core.ml.model.regression import SupportVectorRegression, DecisionTreeRegression, MultipleLinearRegression
+from autoop.core.ml.model.regression import (
+    SupportVectorRegression, DecisionTreeRegression, MultipleLinearRegression
+)
+
 
 REGRESSION_MODELS = [
     "DecisionTreeRegression",
