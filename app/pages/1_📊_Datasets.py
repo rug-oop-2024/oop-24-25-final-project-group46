@@ -25,8 +25,8 @@ if uploaded_file is not None:
     if st.button("Detect Feature Types"):
         detected_features = detect_feature_types(
             Dataset.from_dataframe(
-                df, 
-                name=dataset_name, 
+                df,
+                name=dataset_name,
                 asset_path=f"{dataset_name}.csv"
             )
         )
