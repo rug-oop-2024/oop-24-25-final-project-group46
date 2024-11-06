@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from math import sqrt
-from typing import Dict, List
+from typing import Dict#, List
 import numpy as np
 
 METRICS = [
@@ -12,7 +12,7 @@ METRICS = [
 ]
 
 
-def get_metric(self, name: str) -> "Metric":
+def get_metric(name: str) -> "Metric":
     """Return a metric instance given its name as a string."""
     metrics: Dict[str, Metric] = {
         "mean_squared_error": MeanSquaredError(),
@@ -33,8 +33,7 @@ class Metric(ABC):
 
     @abstractmethod
     def evaluate(
-            self, ground_truth: np.ndarray, prediction: np.ndarray
-        ) -> float:
+            self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaluate the model based on the ground truth and predictions."""
         return
 
@@ -48,8 +47,7 @@ class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
     def evaluate(
-            self, ground_truth: np.ndarray, prediction: np.ndarray
-        ) -> float:
+            self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # MeanSquaredError formula: (1/n) * Σ (y_prediction - y_true)²
         # Feat is features
@@ -65,8 +63,7 @@ class MeanAbsoluteError(Metric):
         self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
-        # Feat is features
-        feat = zip(prediction, ground_truth)
+        feat = zip(prediction, ground_truth) # Feat is features
         absolute_errors = sum(abs(y_true - y_pred) for y_true, y_pred in feat)
         return absolute_errors / len(ground_truth)
 
@@ -78,8 +75,7 @@ class RootMeanSquaredError(Metric):
         self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
-        # Feat is features
-        feat = zip(prediction, ground_truth)
+        feat = zip(prediction, ground_truth) # Feat is features
         squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
         mean_squared_error = squared_errors / len(ground_truth)
         return sqrt(mean_squared_error)
