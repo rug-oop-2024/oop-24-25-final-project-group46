@@ -21,7 +21,7 @@ class Pipeline:
         model: Model,
         input_features: List[Feature],
         target_feat: Feature,
-        split: float=0.8,
+        split: float = 0.8,
     ) -> None:
         """Create a constructor for the pipeline class."""
         self._dataset = dataset
@@ -33,7 +33,7 @@ class Pipeline:
         self._split = split
         if target_feat.type == "categorical" and model.type != "classification":
             raise ValueError(
-                "Model type must be classification for categorical target feature"
+                "Model type must be classification for categorical target feat."
             )
         if target_feat.type == "continuous" and model.type != "regression":
             raise ValueError(
@@ -98,7 +98,7 @@ Pipeline(
             self._input_features, self._dataset)
         for feature_name, data, artifact in input_results:
             self._register_artifact(feature_name, artifact)
-        # Get input vectors and output vector, sort by feature name for consistency
+        # Get input and output, sort by feature name for consistency
         self._output_vector = target_data
         self._input_vectors = [
             data for (feature_name, data, artifact) in input_results]
@@ -113,12 +113,12 @@ Pipeline(
         ]
         self._test_X = [
             vector[
-                int(split * len(vector)) :] for vector in self._input_vectors
+                int(split * len(vector)):] for vector in self._input_vectors
         ]
         self._train_y = self._output_vector[
             : int(split * len(self._output_vector))]
         self._test_y = self._output_vector[
-            int(split * len(self._output_vector)) :]
+            int(split * len(self._output_vector)):]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
         """Returns combined vectors."""
@@ -146,7 +146,7 @@ Pipeline(
         self._preprocess_features()
         self._split_data()
         self._train()
-       
+
         train_X = self._compact_vectors(self._train_X)
         train_y = self._train_y
         train_predictions = self._model.predict(train_X)
