@@ -100,5 +100,5 @@ class LocalStorage(Storage):
             raise NotFoundError(path)
   
     def _join_path(self, path: str) -> str:
-        """Create a method for finding a path."""
+        """Create method for finding a path."""
         return os.path.join(self._base_path, path)
