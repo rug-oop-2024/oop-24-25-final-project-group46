@@ -1,7 +1,6 @@
 from collections import Counter
-from copy import deepcopy
 import numpy as np
-from autoop.core.ml.model import Model  # Import the base Model class from the final project
+from autoop.core.ml.model import Model
 
 class KNN(Model):
     """A class for finding the k nearest neighbours."""
