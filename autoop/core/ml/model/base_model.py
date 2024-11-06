@@ -3,7 +3,8 @@ from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 import numpy as np
 from copy import deepcopy
-from typing import Literal
+# from typing import Literal
+
 
 class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
@@ -13,12 +14,12 @@ class Model(Artifact, ABC):
         self._parameters = parameters
 
     @abstractmethod
-    def fit(self, observations, ground_truth) -> None:
+    def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Use observations and ground truths to modify the internal state."""
         return
 
     @abstractmethod
-    def predict(self, observations) -> list:
+    def predict(self, observations: np.ndarray) -> list:
         """Return a prediction using observations."""
         return
 
@@ -26,12 +27,12 @@ class Model(Artifact, ABC):
     def parameters(self) -> dict:
         """Provide a getter for the parameters variable."""
         return deepcopy(self._parameters)
-    
+
     @parameters.setter
     def parameters(self, value: dict) -> None:
         if self._validate_dict(value):
             self._parameters = value
-        else: 
+        else:
             raise ValueError("Invalid type, parameter type has to be a dict.")
 
     def _validate_dict(self, parameters: dict) -> bool:
