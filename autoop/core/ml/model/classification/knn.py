@@ -2,6 +2,7 @@ from collections import Counter
 import numpy as np
 from autoop.core.ml.model.base_model import Model
 
+
 class KNN(Model):
     """A class for finding the k nearest neighbours."""
 
@@ -26,7 +27,8 @@ class KNN(Model):
 
         for single_observation in observations:
             # Calculate distances to all training points.
-            distances = np.linalg.norm(training_observations - single_observation, axis=1)
+            distances = np.linalg.norm(
+                training_observations - single_observation, axis=1)
             # Find k nearest neighbors.
             k_indices = np.argsort(distances)[:self.k]
             # Retrieve labels of nearest neighbors.
