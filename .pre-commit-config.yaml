@@ -58,7 +58,7 @@ repos:
         args:
           [
             "--max-line-length",
-            "88",
+            "79",
             "--extend-ignore",
             "D100, SC200",
             "--max-cognitive-complexity",
