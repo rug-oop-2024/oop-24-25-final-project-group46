@@ -20,22 +20,22 @@ class Pipeline:
         dataset: Dataset,
         model: Model,
         input_features: List[Feature],
-        target_feature: Feature,
-        split=0.8,
+        target_feat: Feature,
+        split: float=0.8,
     ) -> None:
         """Create a constructor for the pipeline class."""
         self._dataset = dataset
         self._model = model
         self._input_features = input_features
-        self._target_feature = target_feature
+        self._target_feature = target_feat
         self._metrics = metrics
         self._artifacts = {}
         self._split = split
-        if target_feature.type == "categorical" and model.type != "classification":
+        if target_feat.type == "categorical" and model.type != "classification":
             raise ValueError(
                 "Model type must be classification for categorical target feature"
             )
-        if target_feature.type == "continuous" and model.type != "regression":
+        if target_feat.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature."
             )
@@ -59,7 +59,7 @@ Pipeline(
 
     @property
     def artifacts(self) -> List[Artifact]:
-        """Get artifacts generated during the pipeline execution to be saved."""
+        """Get artifacts generated during pipeline execution to be saved."""
         artifacts = []
         for name, artifact in self._artifacts.items():
             artifact_type = artifact.get("type")
@@ -84,7 +84,7 @@ Pipeline(
         )
         return artifacts
 
-    def _register_artifact(self, name: str, artifact) -> str:
+    def _register_artifact(self, name: str, artifact: Artifact) -> str:
         """Create a method for registering an artifcact."""
         self._artifacts[name] = artifact
 
@@ -98,22 +98,27 @@ Pipeline(
             self._input_features, self._dataset)
         for feature_name, data, artifact in input_results:
             self._register_artifact(feature_name, artifact)
-        # Get the input vectors and output vector, sort by feature name for consistency
+        # Get input vectors and output vector, sort by feature name for consistency
         self._output_vector = target_data
-        self._input_vectors = [data for (feature_name, data, artifact) in input_results]
+        self._input_vectors = [
+            data for (feature_name, data, artifact) in input_results]
 
     def _split_data(self) -> None:
-        """Create a method for splitting the data into training and testing sets."""
+        """Create a method for splitting data into train and test sets."""
         # Split the data into training and testing sets
         split = self._split
         self._train_X = [
-            vector[: int(split * len(vector))] for vector in self._input_vectors
+            vector[
+                : int(split * len(vector))] for vector in self._input_vectors
         ]
         self._test_X = [
-            vector[int(split * len(vector)) :] for vector in self._input_vectors
+            vector[
+                int(split * len(vector)) :] for vector in self._input_vectors
         ]
-        self._train_y = self._output_vector[: int(split * len(self._output_vector))]
-        self._test_y = self._output_vector[int(split * len(self._output_vector)) :]
+        self._train_y = self._output_vector[
+            : int(split * len(self._output_vector))]
+        self._test_y = self._output_vector[
+            int(split * len(self._output_vector)) :]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
         """Returns combined vectors."""
@@ -141,25 +146,25 @@ Pipeline(
         self._preprocess_features()
         self._split_data()
         self._train()
-                
+       
         train_X = self._compact_vectors(self._train_X)
         train_y = self._train_y
         train_predictions = self._model.predict(train_X)
-        
+
         train_metrics_results = []
         for metric in self._metrics:
             result = metric.evaluate(train_y, train_predictions)
             train_metrics_results.append((metric, result))
-        
+
         test_X = self._compact_vectors(self._test_X)
         test_y = self._test_y
         test_predictions = self._model.predict(test_X)
-        
+
         test_metrics_results = []
         for metric in self._metrics:
             result = metric.evaluate(test_y, test_predictions)
             test_metrics_results.append((metric, result))
-        
+
         return {
             "train_metrics": train_metrics_results,
             "train_predictions": train_predictions,
