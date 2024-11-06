@@ -1,3 +1,4 @@
+"""Create a constructor for the base model."""
 from autoop.core.ml.model.classification import (
     DecisionTreeClassification, KNN, SupportVectorClassification
 )
