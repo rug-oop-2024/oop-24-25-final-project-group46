@@ -14,7 +14,7 @@ class Artifact(ABC):
             metadata: dict = None,
             type: str = None,
             tags: list = None
-            ) -> None:
+        ) -> None:
         """Create a constructor for the Artifact class."""
         self.name = name
         self.asset_path = asset_path
@@ -36,6 +36,6 @@ class Artifact(ABC):
     def get_asset_id(self) -> str:
         """Generates an id of an asset."""
         if not self.asset_path or not self.version:
-            raise ValueError("asset_path and version have to be set to have id.")
+            raise ValueError("asset_path, version have to be set to have id.")
         encoded_path = base64.b64encode(self.asset_path()).decode()
         return f"{encoded_path}:{self.version}"
