@@ -18,7 +18,7 @@ class MultipleLinearRegression(Model):
         # Transpose the observation matrix.
         x_transposed = x_added_column.T
         # Calculate (X^T * X)^(-1) * X^T * y
-        w_and_i = x_transposed @ x_added_column @ x_transposed @ ground_truth
+        w_and_i = (x_transposed @ x_added_column @ x_transposed @ ground_truth)
         weights_and_intercept = np.linalg.inv(w_and_i)
 
         # Store the parameters (weights and intercept) for use in predictions.
