@@ -33,7 +33,8 @@ class Metric(ABC):
 
     @abstractmethod
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+            self, ground_truth: np.ndarray, prediction: np.ndarray
+        ) -> float:
         """Evaluate the model based on the ground truth and predictions."""
         return
 
@@ -47,7 +48,8 @@ class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+            self, ground_truth: np.ndarray, prediction: np.ndarray
+        ) -> float:
         """Evaltuate the model."""
         # MeanSquaredError formula: (1/n) * Σ (y_prediction - y_true)²
         # Feat is features
