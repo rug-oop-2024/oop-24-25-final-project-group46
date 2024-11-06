@@ -7,10 +7,11 @@ class Feature(ABC):
     """Feature class."""
 
     def __init__(
-            self, 
-            name: str, 
+            self,
+            name: str,
             type: str
-        ) -> None:
+    ) -> None:
+        """Create a constructor for the feature base class."""
         self.name = name
         self.type = type
 
