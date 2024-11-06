@@ -1,5 +1,7 @@
 import base64
 
+import uuid
+
 from abc import ABC
 
 
@@ -23,6 +25,7 @@ class Artifact(ABC):
         self.metadata = metadata if not None else {}
         self.type = type
         self.tags = tags if not None else []
+        self.id = str(uuid.uuid4())
 
     def read(self) -> bytes:
         """Create a method for reading the data."""
