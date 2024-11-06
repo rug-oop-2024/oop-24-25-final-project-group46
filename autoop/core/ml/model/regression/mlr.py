@@ -16,13 +16,13 @@ class MultipleLinearRegression(Model):
         x_added_column = np.column_stack([observations, ones_column])
 
         # Transpose the observation matrix.
-        x_transposed = x_added_column.T
+        x_t = x_added_column.T
         # Calculate (X^T * X)^(-1) * X^T * y
-        w_and_i = (x_transposed @ x_added_column @ x_transposed @ ground_truth)
-        weights_and_intercept = np.linalg.inv(w_and_i)
-
+        xtx_inv = np.linalg.inv(x_t @ x_added_column)
+        wei_and_int = xtx_inv @ (x_t @ ground_truth)
+        
         # Store the parameters (weights and intercept) for use in predictions.
-        self._parameters["weights_and_intercept"] = weights_and_intercept
+        self._parameters["weights_and_intercept"] = wei_and_int
 
     def predict(self, observations: np.ndarray) -> np.ndarray:
         """Predict target values using the trained model."""
