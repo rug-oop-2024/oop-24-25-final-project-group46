@@ -22,7 +22,7 @@ class Pipeline:
         input_features: List[Feature],
         target_feature: Feature,
         split=0.8,
-    ):  # Add return type
+    ) -> None:
         """Create a constructor for the pipeline class."""
         self._dataset = dataset
         self._model = model
@@ -40,7 +40,7 @@ class Pipeline:
                 "Model type must be regression for continuous target feature."
             )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Create a method for returning the pipeline."""
         return f"""
 Pipeline(
@@ -53,7 +53,7 @@ Pipeline(
 """
 
     @property
-    def model(self):
+    def model(self) -> "Model":
         """Make a property for self model."""
         return self._model
 
@@ -84,11 +84,11 @@ Pipeline(
         )
         return artifacts
 
-    def _register_artifact(self, name: str, artifact):  # Add return type
+    def _register_artifact(self, name: str, artifact) -> str:
         """Create a method for registering an artifcact."""
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):  # Add return type
+    def _preprocess_features(self) -> None:
         """Create a method for preprocessing the features."""
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset
@@ -102,7 +102,7 @@ Pipeline(
         self._output_vector = target_data
         self._input_vectors = [data for (feature_name, data, artifact) in input_results]
 
-    def _split_data(self):
+    def _split_data(self) -> None:
         """Create a method for splitting the data into training and testing sets."""
         # Split the data into training and testing sets
         split = self._split
@@ -136,7 +136,7 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self) -> dict:
         """Create a method for executing the previous methods."""
         self._preprocess_features()
         self._split_data()

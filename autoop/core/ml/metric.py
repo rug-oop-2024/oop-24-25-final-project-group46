@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from math import sqrt
 from typing import Dict, List
+import numpy as np
 
 METRICS = [
     "mean_squared_error",
@@ -32,8 +33,7 @@ class Metric(ABC):
 
     @abstractmethod
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
-    ) -> float:
+        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaluate the model based on the ground truth and predictions."""
         return
 
@@ -47,8 +47,7 @@ class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
-    ) -> float:
+        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # MeanSquaredError formula: (1/n) * Σ (y_prediction - y_true)²
         # Feat is features
@@ -61,8 +60,7 @@ class MeanAbsoluteError(Metric):
     """Class for the mean absolute error metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
-    ) -> float:
+        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
         # Feat is features
@@ -75,8 +73,7 @@ class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
-    ) -> float:
+        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
         # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
         # Feat is features
@@ -91,7 +88,7 @@ class Accuracy(Metric):
     """Class for the accuracy metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
+        self, ground_truth: np.ndarray, prediction: np.ndarray
     ) -> float:
         """Evaltuate the model."""
         # Accuracy formula: correct predictions/all predictions
@@ -105,7 +102,7 @@ class Precision(Metric):
     """Class for the precision metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
+        self, ground_truth: np.ndarray, prediction: np.ndarray
     ) -> float:
         """Evaltuate the model."""
         # Precision formula: true_positive / (true_positive + false_positive)
@@ -129,7 +126,7 @@ class Recall(Metric):
     """Class for the Recall metric."""
 
     def evaluate(
-        self, ground_truth: List[int | float], prediction: List[int | float]
+        self, ground_truth: np.ndarray, prediction: np.ndarray
     ) -> float:
         """Evaltuate the model."""
         # Recall formula: true_positive / (true_positive + false_negative)
