@@ -14,6 +14,6 @@ class Feature(ABC):
         self.name = name
         self.type = type
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return the feature name plus type."""
         return f"Feature (name={self.name}, type={self.type})"
