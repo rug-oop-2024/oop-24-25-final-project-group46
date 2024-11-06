@@ -11,17 +11,17 @@ class Artifact(ABC):
             asset_path: str,
             data: bytes,
             version: str,
-            metadata: dict,
-            type: str, 
-            tags: list
+            metadata: dict = None,
+            type: str = None, 
+            tags: list = None
         ) -> None: 
         self.name = name
         self.asset_path = asset_path
         self.data = data
         self.version = version
-        self.metadata = metadata
+        self.metadata = metadata if not None else {}
         self.type = type
-        self.tags = tags
+        self.tags = tags if not None else []
 
     def read(self) -> bytes:
         """Create a method for reading the data."""
