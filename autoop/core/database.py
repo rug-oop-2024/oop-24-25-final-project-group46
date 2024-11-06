@@ -1,6 +1,6 @@
 
 import json
-from typing import Tuple, List, Union  # dict removed, but might still need to be imported.
+from typing import Tuple, List, Union  # dict removed
 
 from autoop.core.storage import Storage
 
@@ -80,7 +80,8 @@ class Database():
             if not data:
                 continue
             for id, item in data.items():
-                self._storage.save(json.dumps(item).encode(), f"{collection}/{id}")
+                self._storage.save(json.dumps(item).encode(),
+                                   f"{collection}/{id}")
 
         # for things that were deleted, we need to remove them from the storage
         keys = self._storage.list("")
@@ -88,7 +89,7 @@ class Database():
             collection, id = key.split("/")[-2:]
             if not self._data.get(collection, id):
                 self._storage.delete(f"{collection}/{id}")
-    
+
     def _load(self) -> None:
         """Load the data from storage"""
         self._data = {}
@@ -99,4 +100,3 @@ class Database():
             if collection not in self._data:
                 self._data[collection] = {}
             self._data[collection][id] = json.loads(data.decode())
-
