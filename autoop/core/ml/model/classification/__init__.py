@@ -3,6 +3,7 @@
 #     DecisionTreeClassification,
 # )
 # from autoop.core.ml.model.classification.knn import KNN
-# from autoop.core.ml.model.classification.svc 
+# from autoop.core.ml.model.classification.svc
 # import SupportVectorClassification
+
 
