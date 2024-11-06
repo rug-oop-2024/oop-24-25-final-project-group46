@@ -35,7 +35,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
                 column_types[i] = "categorical"
 
     for i, column_name in enumerate(data.columns):
-        feature = Feature(name=column_name, feature_type=column_types[i])
+        feature = Feature(name=column_name, type=column_types[i])
         features.append(feature)
 
     return features
