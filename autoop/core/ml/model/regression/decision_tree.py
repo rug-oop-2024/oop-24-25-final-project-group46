@@ -1,6 +1,7 @@
+from sklearn.tree import DecisionTreeRegressor
+
 from autoop.core.ml.model import Model
 
-from sklearn.tree import DecisionTreeRegressor
 
 class DecisionTreeRegression(Model):
     """A wrapper for Decision Tree Regression."""
