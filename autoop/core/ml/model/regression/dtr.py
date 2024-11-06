@@ -4,9 +4,9 @@ from sklearn.tree import DecisionTreeRegressor
 
 from autoop.core.ml.model.base_model import Model
 
+
 class DecisionTreeRegression(Model):
     """A wrapper for Decision Tree Regression."""
-
 
     def __init__(self, parameters: dict = None) -> None:
         """Create a constructor for the Decision Tree model."""

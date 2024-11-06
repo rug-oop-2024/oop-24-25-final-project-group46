@@ -1,16 +1,16 @@
 import numpy as np
 from autoop.core.ml.model.base_model import Model
 
+
 class MultipleLinearRegression(Model):
     """A class for Multiple Linear Regression model."""
-
 
     def __init__(self) -> None:
         """Initialize the Multiple Linear Regression model."""
         super().__init__(parameters={})
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
-        """Finding the optimal parameters using the observations and their labels."""
+        """Finding the optimal parameters using the observations."""
         # Add a column of ones to the observations for the intercept term.
         ones_column = np.ones((observations.shape[0], 1))
         x_added_column = np.column_stack([observations, ones_column])
