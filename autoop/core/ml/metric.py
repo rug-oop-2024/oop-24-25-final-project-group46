@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from math import sqrt
-from typing import Dict  #, List
+from typing import Dict  # , List
 import numpy as np
 
 METRICS = [
@@ -61,7 +61,9 @@ class MeanAbsoluteError(Metric):
 
     # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+        self,
+        ground_truth: np.ndarray, prediction: np.ndarray
+    ) -> float:
         """Evaltuate the model."""
         feat = zip(prediction, ground_truth)  # Feat is features
         absolute_errors = sum(abs(y_true - y_pred) for y_true, y_pred in feat)
@@ -73,7 +75,9 @@ class RootMeanSquaredError(Metric):
 
     # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+        self,
+        ground_truth: np.ndarray, prediction: np.ndarray
+    ) -> float:
         """Evaltuate the model."""
         feat = zip(prediction, ground_truth)  # Feat is features
         squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
