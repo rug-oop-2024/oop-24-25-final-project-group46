@@ -30,10 +30,6 @@ def get_metric(self, name: str) -> "Metric":
 class Metric(ABC):
     """Base class for all metrics."""
 
-    def __init__(self) -> None:
-        """Construct the method for the metric base class."""
-        super().__init__()
-
     @abstractmethod
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
@@ -50,15 +46,12 @@ class Metric(ABC):
 class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
-    def __init__(self) -> None:
-        """Construct the MeanSquaredError class."""
-        super().__init__()
-
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
     ) -> float:
         """Evaltuate the model."""
         # MeanSquaredError formula: (1/n) * Σ (y_prediction - y_true)²
+        # Feat is features
         feat = zip(prediction, ground_truth)
         squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
         return squared_errors / len(ground_truth)
@@ -67,15 +60,12 @@ class MeanSquaredError(Metric):
 class MeanAbsoluteError(Metric):
     """Class for the mean absolute error metric."""
 
-    def __init__(self) -> None:
-        """Construct the MeanAbsoluteError class."""
-        super().__init__()
-
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
     ) -> float:
         """Evaltuate the model."""
         # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
+        # Feat is features
         feat = zip(prediction, ground_truth)
         absolute_errors = sum(abs(y_true - y_pred) for y_true, y_pred in feat)
         return absolute_errors / len(ground_truth)
@@ -84,15 +74,12 @@ class MeanAbsoluteError(Metric):
 class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
-    def __init__(self) -> None:
-        """Construct the RootsMeanSquaredError class."""
-        super().__init__()
-
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
     ) -> float:
         """Evaltuate the model."""
         # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
+        # Feat is features
         feat = zip(prediction, ground_truth)
         squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
         mean_squared_error = squared_errors / len(ground_truth)
@@ -103,15 +90,12 @@ class RootMeanSquaredError(Metric):
 class Accuracy(Metric):
     """Class for the accuracy metric."""
 
-    def __init__(self) -> None:
-        """Construct the Accuracy class."""
-        super().__init__()
-
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
     ) -> float:
         """Evaltuate the model."""
         # Accuracy formula: correct predictions/all predictions
+        # Feat is features
         feat = zip(prediction, ground_truth)
         correct_pred = sum(1 for y_pred, y_true in feat if y_pred == y_true)
         return correct_pred / len(ground_truth)
@@ -119,10 +103,6 @@ class Accuracy(Metric):
 
 class Precision(Metric):
     """Class for the precision metric."""
-
-    def __init__(self) -> None:
-        """Construct the Percision class."""
-        super().__init__()
 
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
@@ -147,10 +127,6 @@ class Precision(Metric):
 
 class Recall(Metric):
     """Class for the Recall metric."""
-
-    def __init__(self) -> None:
-        """Construct the Rcall class."""
-        super().__init__()
 
     def evaluate(
         self, ground_truth: List[int | float], prediction: List[int | float]
