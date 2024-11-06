@@ -33,13 +33,12 @@ class Pipeline:
         self._split = split
         self._check_type(target_feature, model)
 
-    
-    def _check_type(self, target_feature: Feature, model: Model) -> None:
-        if target_feature.type == "categorical" and model.type != "classification":
+    def _check_type(self, target_feat: Feature, model: Model) -> None:
+        if target_feat.type == "categorical" and model.type != "classification":
             raise ValueError(
                 "Model type must be classification for categorical target feat."
             )
-        if target_feature.type == "continuous" and model.type != "regression":
+        if target_feat.type == "continuous" and model.type != "regression":
             raise ValueError(
                 "Model type must be regression for continuous target feature."
             )
