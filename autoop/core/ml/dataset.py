@@ -34,6 +34,5 @@ class Dataset(Artifact):
         """Create a method for saving the dataset."""
         bytes = data.to_csv(index=False).encode()
         return super().save(bytes)
-    
 
 
