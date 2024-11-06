@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from math import sqrt
-from typing import Dict#, List
+from typing import Dict  #, List
 import numpy as np
 
 METRICS = [
@@ -59,11 +59,11 @@ class MeanSquaredError(Metric):
 class MeanAbsoluteError(Metric):
     """Class for the mean absolute error metric."""
 
+    # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
     def evaluate(
         self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
-        # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
-        feat = zip(prediction, ground_truth) # Feat is features
+        feat = zip(prediction, ground_truth)  # Feat is features
         absolute_errors = sum(abs(y_true - y_pred) for y_true, y_pred in feat)
         return absolute_errors / len(ground_truth)
 
@@ -71,11 +71,11 @@ class MeanAbsoluteError(Metric):
 class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
+    # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
     def evaluate(
         self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaltuate the model."""
-        # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
-        feat = zip(prediction, ground_truth) # Feat is features
+        feat = zip(prediction, ground_truth)  # Feat is features
         squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
         mean_squared_error = squared_errors / len(ground_truth)
         return sqrt(mean_squared_error)
