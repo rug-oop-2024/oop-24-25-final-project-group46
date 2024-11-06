@@ -1,6 +1,6 @@
 from sklearn.svm import SVC
 
-from autoop.core.ml.model import Model
+from autoop.core.ml.model.base_model import Model
 
 
 class SupportVectorClassification(Model):

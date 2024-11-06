@@ -1,5 +1,5 @@
 import numpy as np
-from autoop.core.ml.model import Model
+from autoop.core.ml.model.base_model import Model
 
 class MultipleLinearRegression(Model):
     """A class for Multiple Linear Regression model."""

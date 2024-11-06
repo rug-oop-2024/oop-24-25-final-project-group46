@@ -1,6 +1,6 @@
 from collections import Counter
 import numpy as np
-from autoop.core.ml.model import Model
+from autoop.core.ml.model.base_model import Model
 
 class KNN(Model):
     """A class for finding the k nearest neighbours."""

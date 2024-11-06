@@ -1,6 +1,6 @@
 from sklearn.svm import SVR
 
-from autoop.core.ml.model import Model
+from autoop.core.ml.model.base_model import Model
 
 
 class SupportVectorRegression(Model):
