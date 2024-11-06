@@ -1,4 +1,4 @@
-from sklearn.svm import SVR
+from sklearn.svm import SVC
 
 from autoop.core.ml.model import Model
 
@@ -9,7 +9,7 @@ class SupportVectorRegression(Model):
     def __init__(self, kernel: str = "rbf", parameters: dict = None) -> None:
         """Create a constructor for the SVR model."""
         super().__init__(parameters if parameters else {})
-        self.model = SVR(kernel=kernel, **self._parameters)
+        self.model = SVC(kernel=kernel, **self._parameters)
 
     def fit(self, observations, ground_truth) -> None:
         """Fit the Support Vector Regressor to the data."""

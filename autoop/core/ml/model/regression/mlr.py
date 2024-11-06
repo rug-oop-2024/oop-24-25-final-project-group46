@@ -1,4 +1,3 @@
-from copy import deepcopy
 import numpy as np
 from autoop.core.ml.model import Model
 
