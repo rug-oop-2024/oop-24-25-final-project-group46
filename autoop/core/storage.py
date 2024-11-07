@@ -89,3 +89,5 @@ class LocalStorage(Storage):
     def _join_path(self, path: str) -> str:
         # Ensure paths are OS-agnostic
         return os.path.normpath(os.path.join(self._base_path, path))
+        
+default_storage_instance = LocalStorage(base_path="./assets")
