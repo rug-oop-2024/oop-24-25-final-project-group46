@@ -62,11 +62,17 @@ class ArtifactRegistry():
             type=data["type"],
         )
 
-    def delete(self, artifact_id: str) -> None:
+    def delete(self, id: str) -> None:
         """Delete the artifact from the database."""
-        data = self._database.get("artifacts", artifact_id)
+        entries = self._database.list("artifacts")
+        print("Current stored artifacts:")
+        for id, entry in entries:
+            print(f"Stored artifact ID: {id}, Entry data: {entry}")
+        data = self._database.get("artifacts", id)
+        if data is None:
+            print(f"Artifact with ID {id} does not exist.")
         self._storage.delete(data["asset_path"])
-        self._database.delete("artifacts", artifact_id)
+        self._database.delete("artifacts", id)
 
 
 class AutoMLSystem:

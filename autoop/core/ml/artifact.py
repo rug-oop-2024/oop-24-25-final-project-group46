@@ -38,5 +38,8 @@ class Artifact(ABC):
         """Generate an id based on asset_path and version."""
         if not self.asset_path or not self.version:
             raise ValueError("Both asset_path and version are required to generate an id.")
+        
         encoded_path = base64.b64encode(self.asset_path.encode()).decode()
-        return f"{encoded_path}:{self.version}"
+        encoded_path = encoded_path.rstrip('=')
+        final_version = self.version.replace(';', '_').replace('.', '_').replace(',', '_').replace('=', '_')
+        return f"{encoded_path}:{final_version}"
