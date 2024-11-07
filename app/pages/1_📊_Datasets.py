@@ -33,6 +33,7 @@ if uploaded_file is not None:
         asset_path = f"{dataset_name}.csv"
         )
 
+    # Display features and types button
     if st.button("Detect Feature Types"):
         detected_features = detect_feature_types(
             Dataset.from_dataframe(
@@ -47,6 +48,7 @@ if uploaded_file is not None:
         for feature in detected_features:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
+    # Save dataset button
     if st.button("Save Dataset"):
         dataset_exists = any(
             (d.name == dataset.name and d.version == dataset.version) for d in datasets
@@ -57,20 +59,36 @@ if uploaded_file is not None:
         else:
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
-        
-    st.write("# 📂 Saved Datasets")
-    if datasets:
-        dataset_info = []
+            datasets = automl.registry.list(type="dataset")
 
-        for dataset in datasets:
-            dataset_info.append({
-                "Name": dataset.name,
-                "Type": dataset.type,
+                    
+st.write("# 📂 Saved Datasets")
+if datasets:
+    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id} for dataset in datasets]
+    dataset_df = pd.DataFrame(dataset_info)
+    st.dataframe(dataset_df)
+
+    selected_dataset_name = st.selectbox("Select a dataset to view or delete", options=[d.name for d in datasets])
+    selected_dataset = next((d for d in datasets if d.name == selected_dataset_name), None)
+
+    if selected_dataset:
+        st.write(f"selected dataset id: {selected_dataset.id}")
+        # View dataset button
+        if st.button("View Dataset Details"):
+            artifact = automl.registry.get(selected_dataset.id)
+            st.write("### Dataset Details")
+            st.json({
+                "Name": artifact.name,
+                "Version": artifact.version,
+                "Type": artifact.type,
+                "Tags": artifact.tags,
+                "Metadata": artifact.metadata,
+                "Asset Path": artifact.asset_path,
             })
 
-        dataset_df = pd.DataFrame(dataset_info)
-
-        st.write("## List of Saved Datasets")
-        st.dataframe(dataset_df)
-    else:
-        st.write("No datasets have been saved yet.")
+        # Delete dataset button
+        if st.button("Delete Dataset"):
+            automl.registry.delete(selected_dataset.id)
+            st.success(f"Dataset '{selected_dataset.name}' has been deleted.")
+else:
+    st.write("No datasets have been saved yet.")

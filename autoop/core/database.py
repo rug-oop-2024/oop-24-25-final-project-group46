@@ -13,7 +13,7 @@ class Database():
         self._data = {}
         self._load()
 
-    def set(self, collection: str, id: str, entry: dict) -> dict:
+    def set(self, collection: str, entry: dict, id: str) -> dict:
         """Set a key in the database
         Args:
             collection (str): The collection to store the data in

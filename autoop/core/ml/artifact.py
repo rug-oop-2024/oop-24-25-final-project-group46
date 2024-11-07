@@ -1,7 +1,5 @@
 import base64
 
-import uuid
-
 from abc import ABC
 
 
@@ -25,7 +23,7 @@ class Artifact(ABC):
         self.metadata = metadata if not None else {}
         self.type = type
         self.tags = tags if not None else []
-        self.id = str(uuid.uuid4())
+        self.id = self.get_asset_id()
 
     def read(self) -> bytes:
         """Create a method for reading the data."""
@@ -37,8 +35,8 @@ class Artifact(ABC):
         return data
 
     def get_asset_id(self) -> str:
-        """Generates an id of an asset."""
+        """Generate an id based on asset_path and version."""
         if not self.asset_path or not self.version:
-            raise ValueError("asset_path, version have to be set to have id.")
-        encoded_path = base64.b64encode(self.asset_path()).decode()
+            raise ValueError("Both asset_path and version are required to generate an id.")
+        encoded_path = base64.b64encode(self.asset_path.encode()).decode()
         return f"{encoded_path}:{self.version}"
