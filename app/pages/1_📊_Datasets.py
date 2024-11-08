@@ -57,20 +57,36 @@ if uploaded_file is not None:
         else:
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
-        
-    st.write("# 📂 Saved Datasets")
-    if datasets:
-        dataset_info = []
+            datasets = automl.registry.list(type="dataset")
 
-        for dataset in datasets:
-            dataset_info.append({
-                "Name": dataset.name,
-                "Type": dataset.type,
+                    
+st.write("# 📂 Saved Datasets")
+if datasets:
+    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id, "version": dataset.version, "Tags": dataset.tags, "Metadata": dataset.metadata, "asset path": dataset.asset_path} for dataset in datasets]
+    dataset_df = pd.DataFrame(dataset_info)
+    st.dataframe(dataset_df)
+
+    selected_dataset_name = st.selectbox("Select a dataset to view or delete", options=[d.name for d in datasets])
+    selected_dataset = next((d for d in datasets if d.name == selected_dataset_name), None)
+
+    if selected_dataset:
+        st.write(f"selected dataset id: {selected_dataset.id}")
+        # View dataset button
+        if st.button("View Dataset Details"):
+            artifact = automl.registry.get(selected_dataset.id)
+            st.write("### Dataset Details")
+            st.json({
+                "Name": artifact.name,
+                "Version": artifact.version,
+                "Type": artifact.type,
+                "Tags": artifact.tags,
+                "Metadata": artifact.metadata,
+                "Asset Path": artifact.asset_path,
             })
 
-        dataset_df = pd.DataFrame(dataset_info)
-
-        st.write("## List of Saved Datasets")
-        st.dataframe(dataset_df)
-    else:
-        st.write("No datasets have been saved yet.")
+ # Delete dataset button
+        if st.button("Delete Dataset"):
+            automl.registry.delete(selected_dataset.id)
+            st.success(f"Dataset '{selected_dataset.name}' has been deleted.")
+else:
+    st.write("No datasets have been saved yet.")
