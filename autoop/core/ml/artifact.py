@@ -16,7 +16,7 @@ class Artifact(ABC):
             version: str,
             metadata: dict = None,
             type: str = None,
-            tags: list = None
+            tags: str = None
     ) -> None:
         """Create a constructor for the Artifact class."""
         self.name = name

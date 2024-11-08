@@ -4,10 +4,12 @@ import pandas as pd
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
+import uuid
 
 automl = AutoMLSystem.get_instance()
 
-datasets = automl.registry.list(type="dataset")
+datasets = automl.registry.list(type="Dataset")
+
 
 st.set_page_config(page_title="Dataset Management", page_icon="📊")
 
@@ -26,12 +28,13 @@ if uploaded_file is not None:
     dataset_name = st.text_input(
         "Dataset name", value=uploaded_file.name.split('.')[0]
     )
-
-    dataset = Dataset.from_dataframe(
-        df,
-        name = dataset_name, 
-        asset_path = f"{dataset_name}.csv"
-        )
+    
+    tags = st.text_input("Give the dataset a tag.")
+    
+    metadata = {
+        "experiment_id": str(uuid.uuid4()),
+        "run_id": str(uuid.uuid4())
+        }
 
     if st.button("Detect Feature Types"):
         detected_features = detect_feature_types(
@@ -48,6 +51,15 @@ if uploaded_file is not None:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
     if st.button("Save Dataset"):
+        dataset = Dataset.from_dataframe(
+        df,
+        name = dataset_name, 
+        asset_path = f"{dataset_name}.csv",
+        version = "1.0.0",
+        tags=tags,
+        metadata=metadata
+        )
+        
         dataset_exists = any(
             (d.name == dataset.name and d.version == dataset.version) for d in datasets
         )
@@ -58,6 +70,7 @@ if uploaded_file is not None:
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
             datasets = automl.registry.list(type="dataset")
+            st.write(datasets)
 
                     
 st.write("# 📂 Saved Datasets")
