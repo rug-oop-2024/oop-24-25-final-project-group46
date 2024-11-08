@@ -1,6 +1,9 @@
 import base64
 
 from abc import ABC
+import json 
+
+from autoop.core.storage import default_storage_instance
 
 
 class Artifact(ABC):
@@ -13,7 +16,7 @@ class Artifact(ABC):
             version: str,
             metadata: dict = None,
             type: str = None,
-            tags: list = None
+            tags: str = None
     ) -> None:
         """Create a constructor for the Artifact class."""
         self.name = name
@@ -24,15 +27,50 @@ class Artifact(ABC):
         self.type = type
         self.tags = tags if not None else []
         self.id = self.get_asset_id()
+        self._storage = default_storage_instance
 
     def read(self) -> bytes:
         """Create a method for reading the data."""
         return self.data
 
-    def save(self, data: bytes) -> bytes:
-        """Create a method for saving the data."""
-        self.data = data
-        return data
+    def save(self, data: bytes = None) -> None:
+        """Save the artifact's data and metadata."""
+        if data is not None:
+            self.data = data
+            
+        print(f"[DEBUG] Saving main data to {self.asset_path}...")
+
+        
+        # Save the main data
+        print(f"Saving main data to {self.asset_path}")
+        self._storage.save(self.data, self.asset_path)
+        
+        print(f"[DEBUG] Main data saved successfully to {self.asset_path}")
+
+
+        # Save the metadata as a JSON file in the same path
+        metadata_path = f"{self.asset_path}_metadata.json"
+        
+        print(f"[DEBUG] Saving metadata to {metadata_path}...")
+
+        metadata_content = {
+            "name": self.name,
+            "version": self.version,
+            "tags": self.tags,
+            "metadata": self.metadata,
+            "type": self.type,
+            "id": self.id,
+            "asset_path": self.asset_path
+        }
+        
+        print(f"[DEBUG] Metadata content to be saved: {metadata_content}")
+
+        print(f"Saving metadata to {metadata_path}")
+        self._storage.save(json.dumps(metadata_content).encode(), metadata_path)
+        
+        print(f"[DEBUG] Metadata saved successfully to {metadata_path}")
+
+        return self.data
 
     def get_asset_id(self) -> str:
         """Generate an id based on asset_path and version."""

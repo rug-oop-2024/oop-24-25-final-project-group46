@@ -4,10 +4,12 @@ import pandas as pd
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
+import uuid
 
 automl = AutoMLSystem.get_instance()
 
-datasets = automl.registry.list(type="dataset")
+datasets = automl.registry.list(type="Dataset")
+
 
 st.set_page_config(page_title="Dataset Management", page_icon="📊")
 
@@ -26,14 +28,14 @@ if uploaded_file is not None:
     dataset_name = st.text_input(
         "Dataset name", value=uploaded_file.name.split('.')[0]
     )
+    
+    tags = st.text_input("Give the dataset a tag.")
+    
+    metadata = {
+        "experiment_id": str(uuid.uuid4()),
+        "run_id": str(uuid.uuid4())
+        }
 
-    dataset = Dataset.from_dataframe(
-        df,
-        name = dataset_name, 
-        asset_path = f"{dataset_name}.csv"
-        )
-
-    # Display features and types button
     if st.button("Detect Feature Types"):
         detected_features = detect_feature_types(
             Dataset.from_dataframe(
@@ -48,8 +50,16 @@ if uploaded_file is not None:
         for feature in detected_features:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
-    # Save dataset button
     if st.button("Save Dataset"):
+        dataset = Dataset.from_dataframe(
+        df,
+        name = dataset_name, 
+        asset_path = f"{dataset_name}.csv",
+        version = "1.0.0",
+        tags=tags,
+        metadata=metadata
+        )
+        
         dataset_exists = any(
             (d.name == dataset.name and d.version == dataset.version) for d in datasets
         )
@@ -60,11 +70,12 @@ if uploaded_file is not None:
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
             datasets = automl.registry.list(type="dataset")
+            st.write(datasets)
 
                     
 st.write("# 📂 Saved Datasets")
 if datasets:
-    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id} for dataset in datasets]
+    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id, "version": dataset.version, "Tags": dataset.tags, "Metadata": dataset.metadata, "asset path": dataset.asset_path} for dataset in datasets]
     dataset_df = pd.DataFrame(dataset_info)
     st.dataframe(dataset_df)
 
@@ -86,7 +97,7 @@ if datasets:
                 "Asset Path": artifact.asset_path,
             })
 
-        # Delete dataset button
+ # Delete dataset button
         if st.button("Delete Dataset"):
             automl.registry.delete(selected_dataset.id)
             st.success(f"Dataset '{selected_dataset.name}' has been deleted.")
