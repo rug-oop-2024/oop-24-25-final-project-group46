@@ -64,7 +64,7 @@ if uploaded_file is not None:
                     
 st.write("# 📂 Saved Datasets")
 if datasets:
-    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id} for dataset in datasets]
+    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id, "version": dataset.version, "Tags": dataset.tags, "Metadata": dataset.metadata, "asset path": dataset.asset_path} for dataset in datasets]
     dataset_df = pd.DataFrame(dataset_info)
     st.dataframe(dataset_df)
 
