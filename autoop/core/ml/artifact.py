@@ -37,13 +37,22 @@ class Artifact(ABC):
         """Save the artifact's data and metadata."""
         if data is not None:
             self.data = data
+            
+        print(f"[DEBUG] Saving main data to {self.asset_path}...")
+
         
         # Save the main data
         print(f"Saving main data to {self.asset_path}")
         self._storage.save(self.data, self.asset_path)
+        
+        print(f"[DEBUG] Main data saved successfully to {self.asset_path}")
+
 
         # Save the metadata as a JSON file in the same path
         metadata_path = f"{self.asset_path}_metadata.json"
+        
+        print(f"[DEBUG] Saving metadata to {metadata_path}...")
+
         metadata_content = {
             "name": self.name,
             "version": self.version,
@@ -53,8 +62,13 @@ class Artifact(ABC):
             "id": self.id,
             "asset_path": self.asset_path
         }
+        
+        print(f"[DEBUG] Metadata content to be saved: {metadata_content}")
+
         print(f"Saving metadata to {metadata_path}")
         self._storage.save(json.dumps(metadata_content).encode(), metadata_path)
+        
+        print(f"[DEBUG] Metadata saved successfully to {metadata_path}")
 
         return self.data
 
