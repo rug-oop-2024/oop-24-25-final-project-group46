@@ -3,17 +3,26 @@ from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 import numpy as np
 from copy import deepcopy
-from typing import Literal
+from typing import Literal, Optional
 import pickle
 
 
 class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
 
-    def __init__(self, type: Literal["regression", "classification"], parameters: dict) -> None:
+    def __init__(self, name:str, type=Literal["regression", "classification"], parameters: Optional[dict] = None, model: object = None, *args, **kwargs) -> None:
         """Initialize the model with an empty parameters dictionary."""
         self._parameters = parameters
-        self._type = type
+        self._model = model
+        self._type = type 
+        Artifact().__init__(
+            self, 
+            name=name,
+            asset_path=f"models/{name}.pkl", 
+            *args,
+            **kwargs
+        )
+ 
 
 
     @abstractmethod

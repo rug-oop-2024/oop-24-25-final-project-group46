@@ -4,20 +4,20 @@ from autoop.core.ml.model.base_model import Model
 
 import numpy as np
 
+from typing import Optional
+
 
 class DecisionTreeClassification(Model):
     """A wrapper for Decision Tree Classification."""
-
-    def __init__(self, parameters: dict = None, type: str = None) -> None:
+    def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
         """Create a constructor for the Decision Tree Classifier model."""
-        self._parameters = parameters
-        self._type = type
-        self.model = DecisionTreeClassifier(**self._parameters, self._type)
+        super().__init__(name="DecisionTreeClassifier", type="classification", parameters=parameters, **kwargs)
+        self.model = DecisionTreeClassifier(**self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Fit the Decision Tree Classifier to the data."""
         self.model.fit(observations, ground_truth)
 
-    def predict(self, observations: np.ndarray) -> list:
+    def predict(self, observations: np.ndarray) -> np.ndarray:
         """Predict class labels for new observations."""
         return self.model.predict(observations)

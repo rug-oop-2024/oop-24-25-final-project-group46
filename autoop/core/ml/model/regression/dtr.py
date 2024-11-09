@@ -14,7 +14,6 @@ class DecisionTreeRegression(Model):
         self.type = "classification"
         self.model = DecisionTreeRegressor(**self._parameters)
 
-
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Fit the Decision Tree Regressor to the data."""
         self.model.fit(observations, ground_truth)

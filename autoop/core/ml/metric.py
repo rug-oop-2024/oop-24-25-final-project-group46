@@ -6,7 +6,8 @@ import numpy as np
 METRICS = [
     "mean_squared_error",
     "mean_absolute_error",
-    "root_mean_squared_error" "accuracy",
+    "root_mean_squared_error",
+    "accuracy",
     "micro_precision",
     "mirco_recall",
 ]
@@ -32,72 +33,51 @@ class Metric(ABC):
     """Base class for all metrics."""
 
     @abstractmethod
-    def evaluate(
-            self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+    def evaluate(self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
         """Evaluate the model based on the ground truth and predictions."""
         return
 
     def __call__(self) -> None:
         """Initiate call method for base class."""
-        raise NotImplementedError("To be implemented.")
+        return f"{__class__.__name__}"
 
 
 # Classes for regression
 class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
-    def evaluate(
-            self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaltuate the model."""
-        # MeanSquaredError formula: (1/n) * Σ (y_prediction - y_true)²
-        # Feat is features
-        feat = zip(prediction, ground_truth)
-        squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
+        squared_errors = np.sum((ground_truth - predictions)**2)
         return squared_errors / len(ground_truth)
 
 
 class MeanAbsoluteError(Metric):
     """Class for the mean absolute error metric."""
 
-    # MeanAbsoluteError formula = (1/n) * Σ |y_prediction - y_true|
-    def evaluate(
-        self,
-        ground_truth: np.ndarray, prediction: np.ndarray
-    ) -> float:
+    def evaluate(self,ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaltuate the model."""
-        feat = zip(prediction, ground_truth)  # Feat is features
-        absolute_errors = sum(abs(y_true - y_pred) for y_true, y_pred in feat)
-        return absolute_errors / len(ground_truth)
+        return np.mean(np.abs(ground_truth - predictions))
 
-
+        
 class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
-    # Formula: square root[(1/n) * Σ (y_prediction - y_true)²]
-    def evaluate(
-        self,
-        ground_truth: np.ndarray, prediction: np.ndarray
-    ) -> float:
+    def evaluate(self,ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaltuate the model."""
-        feat = zip(prediction, ground_truth)  # Feat is features
-        squared_errors = sum((y_pred - y_true) ** 2 for y_true, y_pred in feat)
-        mean_squared_error = squared_errors / len(ground_truth)
-        return sqrt(mean_squared_error)
+        squared_errors = np.sum((ground_truth - predictions)**2)
+        denominator = np.sum((ground_truth - np.mean(ground_truth))**2)
+        return (1 - squared_errors) / denominator
 
 
 # Classes for classification
 class Accuracy(Metric):
     """Class for the accuracy metric."""
 
-def evaluate(self, predictions: np.ndarray, ground_truth: np.ndarray) -> float:
-    """Evaluate the model's accuracy based on ground truth and predictions."""
-    # Flatten to ensure 1D arrays
-    predictions = predictions.flatten()
-    ground_truth = ground_truth.flatten()
-    
-    # Calculate correct predictions using np.array_equal for multi-element comparisons
-    correct_pred = sum(1 for y_pred, y_true in zip(predictions, ground_truth) if np.array_equal(y_pred, y_true))
-    return correct_pred / len(ground_truth)
+    def evaluate(self, predictions: np.ndarray, ground_truth: np.ndarray) -> float:
+        """Evaluate the model's accuracy based on ground truth and predictions."""
+        true_positives = np.sum(ground_truth == predictions)
+        return true_positives/len(ground_truth)
 
 
 class Precision(Metric):
