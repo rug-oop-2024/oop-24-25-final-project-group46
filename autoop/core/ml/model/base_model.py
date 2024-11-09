@@ -3,17 +3,17 @@ from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 import numpy as np
 from copy import deepcopy
-# from typing import Literal
+from typing import Literal
+import pickle
 
 
 class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
 
-    def __init__(self, parameters: dict) -> None:
+    def __init__(self, type: Literal["regression", "classification"], parameters: dict) -> None:
         """Initialize the model with an empty parameters dictionary."""
-        ABC().__init__(self)
-        Artifact().__init__(self)
         self._parameters = parameters
+        self._type = type
 
 
     @abstractmethod
@@ -40,4 +40,20 @@ class Model(Artifact, ABC):
 
     def _validate_dict(self, parameters: dict) -> bool:
         return isinstance(parameters, dict)
+    
+    @property
+    def type(self) -> str:
+        """Provide a getter for the parameters variable."""
+        return self._type
+    
+    def to_artifact(self, name: str) -> "Artifact":
+        """Define a method to convert the model to an artifact."""
+        model = pickle.dumps(self)
+        artifact = Artifact(
+            name=name,
+            data=model,
+            type="model",
+        )
+        return artifact
+
 
