@@ -7,8 +7,8 @@ METRICS = [
     "mean_squared_error",
     "mean_absolute_error",
     "root_mean_squared_error" "accuracy",
-    "precision",
-    "recall",
+    "micro_precision",
+    "mirco_recall",
 ]
 
 
@@ -19,8 +19,8 @@ def get_metric(name: str) -> "Metric":
         "mean_absolute_error": MeanAbsoluteError(),
         "root_mean_squared_error": RootMeanSquaredError(),
         "accuracy": Accuracy(),
-        "precision": Precision(),
-        "recall": Recall(),
+        "micro_precision": Precision(),
+        "micro_recall": Recall(),
     }
 
     if name in metrics:
@@ -89,15 +89,15 @@ class RootMeanSquaredError(Metric):
 class Accuracy(Metric):
     """Class for the accuracy metric."""
 
-    def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray
-    ) -> float:
-        """Evaltuate the model."""
-        # Accuracy formula: correct predictions/all predictions
-        # Feat is features
-        feat = zip(prediction, ground_truth)
-        correct_pred = sum(1 for y_pred, y_true in feat if y_pred == y_true)
-        return correct_pred / len(ground_truth)
+def evaluate(self, predictions: np.ndarray, ground_truth: np.ndarray) -> float:
+    """Evaluate the model's accuracy based on ground truth and predictions."""
+    # Flatten to ensure 1D arrays
+    predictions = predictions.flatten()
+    ground_truth = ground_truth.flatten()
+    
+    # Calculate correct predictions using np.array_equal for multi-element comparisons
+    correct_pred = sum(1 for y_pred, y_true in zip(predictions, ground_truth) if np.array_equal(y_pred, y_true))
+    return correct_pred / len(ground_truth)
 
 
 class Precision(Metric):
