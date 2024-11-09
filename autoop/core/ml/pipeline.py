@@ -6,8 +6,7 @@ from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
 from autoop.core.ml.metric import Metric
 from autoop.core.ml.model import Model
-from autoop.functional.preprocessing import preprocess_features
-
+from autoop.functional.preprocessing import preprocess_features    
 
 import numpy as np
 

@@ -1,7 +1,6 @@
 from autoop.core.ml.artifact import Artifact
 import pandas as pd
 import io
-import os
 
 class Dataset(Artifact):
     """Create a class for datasets."""
