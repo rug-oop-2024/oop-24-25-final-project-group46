@@ -20,4 +20,4 @@ class DecisionTreeClassification(Model):
 
     def predict(self, observations: np.ndarray) -> list:
         """Predict class labels for new observations."""
-        return self.model.predict(observations).tolist()
+        return self.model.predict(observations)

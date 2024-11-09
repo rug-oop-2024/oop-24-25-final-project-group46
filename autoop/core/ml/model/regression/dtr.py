@@ -21,4 +21,4 @@ class DecisionTreeRegression(Model):
 
     def predict(self, observations: np.ndarray) -> list:
         """Predict target values using the trained model."""
-        return self.model.predict(observations).tolist()
+        return self.model.predict(observations)
