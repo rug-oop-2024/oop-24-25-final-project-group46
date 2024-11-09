@@ -1,7 +1,7 @@
 from autoop.core.ml.artifact import Artifact
 import pandas as pd
 import io
-
+import os
 
 class Dataset(Artifact):
     """Create a class for datasets."""
@@ -35,5 +35,7 @@ class Dataset(Artifact):
         return pd.read_csv(io.StringIO(csv))
 
     def save(self, data: pd.DataFrame) -> bytes:
+        """Inherit save method from artifact, ensure data is a csv."""
         bytes_data = data.to_csv(index=False).encode()
         return super().save(bytes_data)
+
