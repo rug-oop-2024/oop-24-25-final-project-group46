@@ -4,7 +4,8 @@ import pandas as pd
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
-import uuid
+import random 
+import string
 
 automl = AutoMLSystem.get_instance()
 
@@ -30,25 +31,26 @@ if uploaded_file is not None:
     )
     
     tags = st.text_input("Give the dataset a tag.")
+
+    def _generate_id(prefix: str) -> str:
+        """Generates the random id's for metadata"""
+        random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=12))
+        return f"{prefix}-{random_part}"
     
     metadata = {
-        "experiment_id": str(uuid.uuid4()),
-        "run_id": str(uuid.uuid4())
+        "experiment_id": _generate_id("exp"),
+        "run_id": _generate_id("run")
         }
 
-    if st.button("Detect Feature Types"):
-        detected_features = detect_feature_types(
-            Dataset.from_dataframe(
-                df,
-                name=dataset_name,
-                asset_path=f"{dataset_name}.csv"
-            )
-        )
+    # if st.button("Detect Feature Types"):
+    #     detected_features = detect_feature_types(
+    #         Dataset.from_dataframe(
+    #             df,
+    #             name=dataset_name,
+    #             asset_path=f"{dataset_name}.csv"
+    #         )
+    #     )
 
-        # Display detected feature types
-        st.write("Detected feature types:")
-        for feature in detected_features:
-            st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
     if st.button("Save Dataset"):
         dataset = Dataset.from_dataframe(
