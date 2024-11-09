@@ -8,7 +8,7 @@ class KNN(Model):
 
     def __init__(self, parameters: dict, num_k: int) -> None:
         """Initialize the KNN model with given parameters and k value. """
-        super().__init__(parameters if parameters is not None else {})
+        super().__init__(parameters if parameters is not None else {}, type="classification")
         self.k = num_k
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:

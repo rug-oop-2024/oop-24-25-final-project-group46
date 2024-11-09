@@ -10,7 +10,7 @@ class SupportVectorRegression(Model):
 
     def __init__(self, kernel: str = "rbf", parameters: dict = None) -> None:
         """Create a constructor for the SVR model."""
-        super().__init__(parameters if parameters else {})
+        super().__init__(parameters if parameters else {}, type="regression")
         self.model = SVR(kernel=kernel, **self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:

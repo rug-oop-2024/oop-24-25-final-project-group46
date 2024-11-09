@@ -11,7 +11,10 @@ class Model(Artifact, ABC):
 
     def __init__(self, parameters: dict) -> None:
         """Initialize the model with an empty parameters dictionary."""
+        ABC().__init__(self)
+        Artifact().__init__(self)
         self._parameters = parameters
+
 
     @abstractmethod
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
@@ -37,3 +40,4 @@ class Model(Artifact, ABC):
 
     def _validate_dict(self, parameters: dict) -> bool:
         return isinstance(parameters, dict)
+

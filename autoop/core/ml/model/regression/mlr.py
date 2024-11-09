@@ -7,7 +7,7 @@ class MultipleLinearRegression(Model):
 
     def __init__(self) -> None:
         """Initialize the Multiple Linear Regression model."""
-        super().__init__(parameters={})
+        super().__init__(parameters={}, type="regression")
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Finding the optimal parameters using the observations."""
