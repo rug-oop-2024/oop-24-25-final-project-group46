@@ -15,6 +15,7 @@ from autoop.core.ml.model.regression import MultipleLinearRegression
 
 from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.feature import Feature
+from autoop.core.ml.metric import Metric, get_metric
 
 import io
 
@@ -75,9 +76,16 @@ else:
         for feature in detected_features:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
-        # Select the input and target features
-        input_features = st.multiselect("Select Input Features", feature_names)
+        # Create the list for the input features.
+        input_features = []
+        # Loop over each selected feature name, create a Feature instance, and add it to input_features
+        for feature_name in st.multiselect("Select Input Features", list(feature_types.keys())):
+            feature_type = feature_types[feature_name]
+            feature_instance = Feature(name=feature_name, type=feature_type)
+            input_features.append(feature_instance)
 
+
+        # Create the instance for the target feature 
         selected_target_feature_name = st.selectbox("Select Target Feature", feature_names)
         target_feature_type = feature_types[selected_target_feature_name]
         target_feature = Feature(
@@ -127,8 +135,8 @@ else:
                 "mean_absolute_error": "regression",
                 "root_mean_squared_error": "regression",
                 "accuracy": "classification",
-                "precision": "classification",
-                "recall": "classification",
+                "mirco-precision": "classification",
+                "micro-recall": "classification",
             }
 
             # Define a function to display compatible metrics based on task type
@@ -146,26 +154,36 @@ else:
                 st.write(f"**Metric**: {metric_name}, **Type**: {metric_type}")
 
             # Select metrics
-            selected_metrics = st.multiselect("Select Metrics for Evaluation", list(compatible_metrics.keys()))
-            st.write(f"Selected Metrics: {', '.join(selected_metrics) if selected_metrics else 'None'}")
+            selected_metric_names = st.multiselect("Select Metrics for Evaluation", list(compatible_metrics.keys()))
+            selected_metrics = []
+            for metric_name in selected_metric_names:
+                try:
+                    metric_instance = get_metric(metric_name)
+                    selected_metrics.append(metric_instance)
+                except ValueError as e:
+                    st.error(f"Error loading metric {metric_name}: {e}")
+            st.write("Selected Metrics:")
+            for metric in selected_metrics:
+                st.write(f"- {metric.__class__.__name__}")
 
+            
             # Display summary of configurations
             st.write("### Summary of Configurations")
             st.markdown(f"""
                 - **Selected Dataset**: {selected_dataset_name}
-                - **Input Features**: {', '.join(input_features) if input_features else "None selected"}
+                - **Input Features**: {', '.join([str(feature) for feature in input_features]) if input_features else "None selected"}
                 - **Target Feature**: {target_feature}
                 - **Task Type**: {task_type}
                 - **Selected Model**: {model_name}
                 - **Split Ratio**: {split_ratio:.2f} (Training) / {1 - split_ratio:.2f} (Testing)
-                - **Metrics**: {', '.join(selected_metrics) if selected_metrics else "None selected"}
+                - **Metrics**: {', '.join([metric.__class__.__name__ for metric in selected_metrics]) if selected_metrics else "None selected"}
             """)
 
         # Train the class and report the results of the pipeline
         if st.button("Train Model"):
             # Initialize the Pipeline with the selected configurations
             pipeline = Pipeline(
-                metrics=[selected_metrics],
+                metrics=selected_metrics,
                 dataset=selected_dataset,
                 model=model,
                 input_features=input_features,
@@ -175,9 +193,7 @@ else:
         
         # Split the data, train, and evaluate
         st.write("### Training the Model...")
-        pipeline._split_data()
-        pipeline._train()
-        results = pipeline._evaluate()
+        results = pipeline.execute()
         
         # Display the results
         st.write("### Training Results")
