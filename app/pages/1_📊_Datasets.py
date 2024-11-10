@@ -59,8 +59,9 @@ if uploaded_file is not None:
 
         if dataset_exists:
             st.warning(
-                f"Dataset '{dataset_name}'
-                (version {dataset.version}) has already been saved.")
+                f"Dataset '{dataset_name}' (version {dataset.version}) has already been saved."
+                )
+
         else:
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
