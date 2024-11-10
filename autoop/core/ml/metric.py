@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from math import sqrt
 from typing import Dict  # , List
 import numpy as np
 
@@ -33,7 +32,11 @@ class Metric(ABC):
     """Base class for all metrics."""
 
     @abstractmethod
-    def evaluate(self, ground_truth: np.ndarray, prediction: np.ndarray) -> float:
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        prediction: np.ndarray
+    ) -> float:
         """Evaluate the model based on the ground truth and predictions."""
         return
 
@@ -42,15 +45,20 @@ class Metric(ABC):
         """Return only the metric class name as a string."""
         pass
 
+
 # Classes for regression
 class MeanSquaredError(Metric):
     """Class for the mean squared error metric."""
 
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        predictions: np.ndarray
+    ) -> float:
         """Evaltuate the model."""
         squared_errors = np.sum((ground_truth - predictions)**2)
         return squared_errors / len(ground_truth)
-    
+
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "MeanSquaredError"
@@ -59,26 +67,34 @@ class MeanSquaredError(Metric):
 class MeanAbsoluteError(Metric):
     """Class for the mean absolute error metric."""
 
-    def evaluate(self,ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        predictions: np.ndarray
+    ) -> float:
         """Evaltuate the model."""
         return np.mean(np.abs(ground_truth - predictions))
-        
+
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "MeanAbsoluteError"
 
-        
+   
 class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
-    def evaluate(self,ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        predictions: np.ndarray
+    ) -> float:
         """Evaltuate the model."""
         squared_errors = np.sum((ground_truth - predictions)**2)
         denominator = np.sum((ground_truth - np.mean(ground_truth))**2)
         return 1 - (squared_errors / denominator)
-    
+
     def __str__(self) -> str:
-        """Returns the name of the class."""        
+        """Returns the name of the class."""      
         return "RootMeanSquaredError"
 
 
