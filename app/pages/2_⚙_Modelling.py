@@ -164,7 +164,6 @@ else:
                 f"{1 - split_ratio:.2f}"
             )
 
-
             # Define available metrics and their types
             metrics_info = {
                 "mean_squared_error": "regression",
@@ -228,8 +227,6 @@ else:
                 )
                 if selected_metrics else "None selected"
             )
-
-
             split_ratio_str = (
                 f"{split_ratio:.2f} (Training) / "
                 f"{1 - split_ratio:.2f} (Testing)"
@@ -269,4 +266,5 @@ else:
                 st.write(f"{metric_name}: {result}")
 
             st.success("Model training and evaluation complete!")
+
    
