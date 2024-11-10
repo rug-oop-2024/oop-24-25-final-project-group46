@@ -77,7 +77,7 @@ st.write("# 📂 Saved Datasets")
 if datasets:
     dataset_info = [{
         "Name": dataset.name,
-        "Type": dataset.type,
+        "Type": dataset._type,
         "ID": dataset.id, "version": dataset.version,
         "Tags": dataset.tags,
         "Metadata": dataset.metadata,
