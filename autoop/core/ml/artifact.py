@@ -54,7 +54,7 @@ class Artifact(ABC):
             "id": self.id,
             "asset_path": self.asset_path
         }
-  
+
         print(f"Saving metadata to {metadata_path}")
         self._storage.save(json.dumps(
             metadata_content).encode(),
