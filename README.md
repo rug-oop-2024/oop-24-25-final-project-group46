@@ -94,6 +94,9 @@ E.g. docs/decisions/DSC-0001-use-typescript.md
 * Showcase the capability of your streamlit app with at least 3 different usecases on real datasets (from Kaggle). 
 Some examples include housing prices, second-hand cars, etc.
 
+The link to our google docs file with the user cases: https://docs.google.com/document/d/1_1XuBDwCc8-S-LP9HAJhIGAHQEvR90ulMoV0b1S3Oyc/edit?usp=sharing
+
+
 ### Checklist
 - [ ] I have read the instructions carefully.
 - [ ] I have filled my personal rubric.
@@ -154,25 +157,25 @@ If you did not implement the feature
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|         
 | Up-to-date requirements.txt           | NF           |                      |         | |
-| `ML/detect-features`                  | FN           |                      |         | |
-| `ML/artifact`                         | NF           |                      |         | |
-| `ML/feature`                          | NF           |                      |         | |
-| `ML/metric`                           | NF           |                      |         | |
-| `ML/metric/extensions`                | FN           |                      |         | |
-| `ML/model`                            | NF           |                      |         | |
-| `ML/model/extensions`                 | FN           |                      |         | |
-| `ML/pipeline/evaluation`              | FN           |                      |         | | 
-| `ST/page/datasets`                    | NF           |                      |         | |
-| `ST/datasets/management/create`       | FN           |                      |         | |
-| `ST/datasets/management/save`         | FN           |                      |         | |
-| `ST/page/modelling`                   | NF           |                      |         | |
-| `ST/modelling/datasets/list`          | FN           |                      |         | |
-| `ST/modelling/datasets/features`      | FN           |                      |         | |
-| `ST/modelling/models`                 | FN           |                      |         | |
-| `ST/modelling/pipeline/split`         | FN           |                      |         | |
-| `ST/modelling/pipeline/metrics`       | FN           |                      |         | |
-| `ST/modelling/pipeline/summary`       | FN           |                      |         | |
-| `ST/modelling/pipeline/train`         | FN           |                      |         | |
+| `ML/detect-features`                  | FN           |  both                |  x      | |
+| `ML/artifact`                         | NF           |  both                |  x      | |
+| `ML/feature`                          | NF           |  both                |  x      | |
+| `ML/metric`                           | NF           |  both                |  x      | |
+| `ML/metric/extensions`                | FN           |  both                |  x      | |
+| `ML/model`                            | NF           |  both                |  x      | |
+| `ML/model/extensions`                 | FN           |  both                |  x      | |
+| `ML/pipeline/evaluation`              | FN           |  both                |  x      | | 
+| `ST/page/datasets`                    | NF           |  both                |  x      | |
+| `ST/datasets/management/create`       | FN           |  both                |  x      | |
+| `ST/datasets/management/save`         | FN           |  both                |  x      | |
+| `ST/page/modelling`                   | NF           |  both                |  x      | |
+| `ST/modelling/datasets/list`          | FN           |  both                |  x      | |
+| `ST/modelling/datasets/features`      | FN           |  both                |  x      | |
+| `ST/modelling/models`                 | FN           |  both                |  x      | |
+| `ST/modelling/pipeline/split`         | FN           |  both                |  x      | |
+| `ST/modelling/pipeline/metrics`       | FN           |  both                |  x      | |
+| `ST/modelling/pipeline/summary`       | FN           |  both                |  x      | |
+| `ST/modelling/pipeline/train`         | FN           |  both                |  x      | |
 | `ST/modelling/pipeline/save`          | FN           |                      |         | |
 | `ST/page/deployment`                  | FN           |                      |         | |
 | `ST/deployment/load`                  | FN           |                      |         | |

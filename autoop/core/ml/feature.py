@@ -1,12 +1,20 @@
+from abc import ABC
 
-from pydantic import BaseModel, Field
-from typing import Literal
-import numpy as np
+# self added
 
-from autoop.core.ml.dataset import Dataset
 
-class Feature(BaseModel):
-    # attributes here
+class Feature(ABC):
+    """Feature class."""
 
-    def __str__(self):
-        raise NotImplementedError("To be implemented.")
+    def __init__(
+            self,
+            name: str,
+            type: str
+    ) -> None:
+        """Create a constructor for the feature base class."""
+        self.name = name
+        self.type = type
+
+    def __str__(self) -> str:
+        """Return the feature name plus type."""
+        return f"Feature (name={self.name}, type={self.type})"
