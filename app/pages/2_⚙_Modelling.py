@@ -8,21 +8,21 @@ from autoop.core.ml.model.classification import DecisionTreeClassification
 from autoop.core.ml.model.classification import KNN
 from autoop.core.ml.model.classification import RandomForestClassification
 
-from autoop.core.ml.model.base_model import Model
+# from autoop.core.ml.model.base_model import Model
 from autoop.core.ml.model.regression import SupportVectorRegression
 from autoop.core.ml.model.regression import DecisionTreeRegression
 from autoop.core.ml.model.regression import MultipleLinearRegression
 
 from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.feature import Feature
-from autoop.core.ml.metric import Metric, get_metric
+from autoop.core.ml.metric import get_metric  # , Metric
 
 import io
 
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str) -> str:    
+def write_helper_text(text: str) -> str: 
     """Write the helper text (?)."""
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
@@ -42,7 +42,10 @@ else:
     # Select box for datasets.
     dataset_names = [dataset.name for dataset in datasets]
     selected_dataset_name = st.selectbox("Select a Dataset", dataset_names)
-    selected_dataset = next((dataset for dataset in datasets if dataset.name == selected_dataset_name), None)
+    selected_dataset = next(
+        (dataset for dataset in datasets if dataset.name == selected_dataset_name), 
+        None
+    )
 
     if selected_dataset:
         # Display information about the selected dataset
@@ -51,13 +54,15 @@ else:
         st.write(f"**Version**: {selected_dataset.version}")
         st.write(f"**Tags**: {', '.join(selected_dataset.tags)}")
         st.write(f"**Metadata**: {selected_dataset.metadata}")
-        st.write(f"Type of selected_dataset.data: {type(selected_dataset.data)}")
+        st.write(f"Type selected_dataset.data: {type(selected_dataset.data)}")
 
-        
+
         # Check if selected_dataset.data is available and is a DataFrame
         if selected_dataset.data is not None:
             if not isinstance(selected_dataset.data, pd.DataFrame):
-                selected_dataset.data = pd.read_csv(io.BytesIO(selected_dataset.data))
+                selected_dataset.data = pd.read_csv(
+                    io.BytesIO(selected_dataset.data)
+                )
                 st.write("### Dataset Preview")
                 st.dataframe(selected_dataset.data.head())
         else:
@@ -72,21 +77,29 @@ else:
         )
         st.write("### Detected Feature Types")
         feature_names = [feature.name for feature in detected_features]
-        feature_types = {feature.name: feature.type for feature in detected_features}
+        feature_types = {
+            feature.name: feature.type for feature in detected_features
+            }
         for feature in detected_features:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
         # Create the list for the input features.
         input_features = []
-        # Loop over each selected feature name, create a Feature instance, and add it to input_features
-        for feature_name in st.multiselect("Select Input Features", list(feature_types.keys())):
+        # Loop over each selected feature name, 
+        # create a Feature instance, and add it to input_features
+        for feature_name in st.multiselect(
+            "Select Input Features",
+            list(feature_types.keys())
+        ):
             feature_type = feature_types[feature_name]
             feature_instance = Feature(name=feature_name, type=feature_type)
             input_features.append(feature_instance)
 
-
-        # Create the instance for the target feature 
-        selected_target_feature_name = st.selectbox("Select Target Feature", feature_names)
+        # Create the instance for the target feature
+        selected_target_feature_name = st.selectbox(
+            "Select Target Feature",
+            feature_names
+        )
         target_feature_type = feature_types[selected_target_feature_name]
         target_feature = Feature(
             name=selected_target_feature_name,
@@ -106,7 +119,12 @@ else:
         
             # Model selection based on task type
             if task_type == "Classification":
-                model_name = st.selectbox("Select a Classification Model", ["Decision Tree", "K-Nearest Neighbors", "Random Forests"])
+                model_name = st.selectbox(
+                    "Select a Classification Model",
+                    ["Decision Tree",
+                     "K-Nearest Neighbors",
+                     "Random Forests"]
+                )
                 if model_name == "Decision Tree":
                     model = DecisionTreeClassification()
                 elif model_name == "K-Nearest Neighbors":
@@ -115,7 +133,12 @@ else:
                     model = RandomForestClassification()
             
             elif task_type == "Regression":
-                model_name = st.selectbox("Select a Regression Model", ["Decision Tree Regressor", "Multiple Linear Regression", "Support Vector Regressor"])
+                model_name = st.selectbox(
+                    "Select a Regression Model",
+                    ["Decision Tree Regressor",
+                     "Multiple Linear Regression", 
+                     "Support Vector Regressor"]
+                )
                 if model_name == "Decision Tree Regressor":
                     model = DecisionTreeRegression()
                 elif model_name == "Multiple Linear Regression":
