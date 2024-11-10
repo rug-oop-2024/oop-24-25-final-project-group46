@@ -22,7 +22,7 @@ import io
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str) -> str: 
+def write_helper_text(text: str) -> str:
     """Write the helper text (?)."""
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
@@ -43,7 +43,7 @@ else:
     dataset_names = [dataset.name for dataset in datasets]
     selected_dataset_name = st.selectbox("Select a Dataset", dataset_names)
     selected_dataset = next(
-        (dataset for dataset in datasets if dataset.name == selected_dataset_name), 
+        (dataset for dataset in datasets if dataset.name == selected_dataset_name),
         None
     )
 
@@ -55,7 +55,6 @@ else:
         st.write(f"**Tags**: {', '.join(selected_dataset.tags)}")
         st.write(f"**Metadata**: {selected_dataset.metadata}")
         st.write(f"Type selected_dataset.data: {type(selected_dataset.data)}")
-
 
         # Check if selected_dataset.data is available and is a DataFrame
         if selected_dataset.data is not None:
@@ -79,13 +78,13 @@ else:
         feature_names = [feature.name for feature in detected_features]
         feature_types = {
             feature.name: feature.type for feature in detected_features
-            }
+        }
         for feature in detected_features:
             st.write(f"Feature: {feature.name}, Type: {feature.type}")
 
         # Create the list for the input features.
         input_features = []
-        # Loop over each selected feature name, 
+        # Loop over each selected feature name,
         # create a Feature instance, and add it to input_features
         for feature_name in st.multiselect(
             "Select Input Features",
@@ -114,9 +113,9 @@ else:
                 task_type = "Regression"
             else:
                 task_type = "Unknown"
-        
+
             st.write(f"**Suggested Task Type**: {task_type}")
-        
+
             # Model selection based on task type
             if task_type == "Classification":
                 model_name = st.selectbox(
@@ -131,12 +130,12 @@ else:
                     model = KNN()
                 elif model_name == "Random Forests":
                     model = RandomForestClassification()
-            
+
             elif task_type == "Regression":
                 model_name = st.selectbox(
                     "Select a Regression Model",
                     ["Decision Tree Regressor",
-                     "Multiple Linear Regression", 
+                     "Multiple Linear Regression",
                      "Support Vector Regressor"]
                 )
                 if model_name == "Decision Tree Regressor":
@@ -146,11 +145,20 @@ else:
                 elif model_name == "Support Vector Regressor":
                     model = SupportVectorRegression()
             else:
-                st.warning("Unknown task type. Please check your target feature")
+                st.warning(
+                    "Unknown task type. Please check your target feature"
+                )
 
             # A slider for the split ratio of the dataset
-            split_ratio = st.slider("Select Dataset Split Ratio for Training", 0.1, 0.9, 0.8)
-            st.write(f"Training/Test Split Ratio: {split_ratio:.2f}/{1 - split_ratio:.2f}")
+            split_ratio = st.slider(
+                "Select Dataset Split Ratio for Training",
+                0.1,
+                0.9,
+                0.8
+            )
+            st.write(
+                f"Training/Test Split Ratio: {split_ratio:.2f}/{1 - split_ratio:.2f}"
+            )
 
             # Define available metrics and their types
             metrics_info = {
@@ -163,11 +171,14 @@ else:
             }
 
             # Define a function to display compatible metrics based on task type
-            def get_compatible_metrics(task_type):
+            def get_compatible_metrics(task_type: str) -> dict:
+                """Show the compatibale metrics."""
                 if task_type == "Regression":
-                    return {name: m_type for name, m_type in metrics_info.items() if m_type == "regression"}
+                    return {name: m_type for name, m_type\
+                        in metrics_info.items() if m_type == "regression"}
                 elif task_type == "Classification":
-                    return {name: m_type for name, m_type in metrics_info.items() if m_type == "classification"}
+                    return {name: m_type for name, m_type\
+                        in metrics_info.items() if m_type == "classification"}
                 else:
                     return {}
 
@@ -177,7 +188,10 @@ else:
                 st.write(f"**Metric**: {metric_name}, **Type**: {metric_type}")
 
             # Select metrics
-            selected_metric_names = st.multiselect("Select Metrics for Evaluation", list(compatible_metrics.keys()))
+            selected_metric_names = st.multiselect(
+                "Select Metrics for Evaluation",
+                list(compatible_metrics.keys())
+            )
             selected_metrics = []
             for metric_name in selected_metric_names:
                 try:
@@ -189,7 +203,7 @@ else:
             for metric in selected_metrics:
                 st.write(f"- {metric.__class__.__name__}")
 
-            
+
             # Display summary of configurations
             st.write("### Summary of Configurations")
             st.markdown(f"""
