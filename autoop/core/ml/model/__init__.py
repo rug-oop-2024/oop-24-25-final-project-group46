@@ -1,7 +1,7 @@
 """Create a constructor for the base model."""
 from autoop.core.ml.model.classification import DecisionTreeClassification
 from autoop.core.ml.model.classification import KNN
-from autoop.core.ml.model.classification import SupportVectorClassification
+from autoop.core.ml.model.classification import RandomForestClassification
 
 from autoop.core.ml.model.base_model import Model
 from autoop.core.ml.model.regression import SupportVectorRegression
@@ -18,7 +18,7 @@ REGRESSION_MODELS = [
 CLASSIFICATION_MODELS = [
     "DecisionTreeClassification",
     "KNN",
-    "SupportVectorClassification",
+    "RandomForestClassification",
 ]  # add your models as str here
 
 
@@ -34,6 +34,6 @@ def get_model(model_name: str) -> Model:
         DecisionTreeClassification
     elif model_name == "KNN":
         KNN
-    elif model_name == "SupportVectorClassification":
-        SupportVectorClassification
+    elif model_name == "RandomForestClassification":
+        RandomForestClassification
     raise NotImplementedError("This is not a valid model, to be implemented.")
