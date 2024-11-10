@@ -36,7 +36,7 @@ class Artifact(ABC):
     def save(self, data: bytes = None) -> None:
         """Save the artifact's data and metadata."""
         if data is not None:
-            self.data = data  
+            self.data = data
 
         # Save the main data
         print(f"Saving main data to {self.asset_path}")

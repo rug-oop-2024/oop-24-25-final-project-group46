@@ -38,7 +38,7 @@ class Database():
             collection (str): The collection to get the data from
             id (str): The id of the data
         Returns:
-            Union[dict, None]: The data that was stored, 
+            Union[dict, None]: The data that was stored,
             or None if it doesn't exist
         """
         if not self._data.get(collection, None):
@@ -64,7 +64,7 @@ class Database():
         Args:
             collection (str): The collection to list the data from
         Returns:
-            List[Tuple[str, dict]]: A list of tuples containing 
+            List[Tuple[str, dict]]: A list of tuples containing
             the id and data for each item in the collection
         """
         if not self._data.get(collection, None):
