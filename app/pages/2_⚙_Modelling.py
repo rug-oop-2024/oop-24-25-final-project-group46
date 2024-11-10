@@ -55,9 +55,8 @@ else:
         st.write("### Selected Dataset Details")
         st.write(f"*Name*: {selected_dataset.name}")
         st.write(f"*Version*: {selected_dataset.version}")
-        st.write(f"*Tags*: {', '.join(selected_dataset.tags)}")
+        st.write(f"*Tags*: {(selected_dataset.tags)}")
         st.write(f"*Metadata*: {selected_dataset.metadata}")
-        st.write(f"Type selected_dataset.data: {type(selected_dataset.data)}")
 
         # Check if selected_dataset.data is available and is a DataFrame
         if selected_dataset.data is not None:
@@ -261,7 +260,19 @@ else:
             results = pipeline.execute()
 
             # Display the results
-            st.write("### Training Results")
-            for metric_name, result in results.items():
-                st.write(f"{metric_name}: {result}")
-            st.success("Model training and evaluation complete!")
+            st.write("### Results")
+
+            st.write("train_metrics:")
+            for metric, result in results["train_metrics"]:
+                st.write(f"  {metric.__class__.__name__} = {result:.4f}")
+
+            st.write("test_metrics:")
+            for metric, result in results["test_metrics"]:
+                st.write(f"  {metric.__class__.__name__} = {result:.4f}")
+
+            # Display the predictions
+            st.write("### Predictions")
+            st.write(f"train_predictions: {results['train_predictions']}")
+            st.write(f"test_predictions: {results['test_predictions']}")
+
+
