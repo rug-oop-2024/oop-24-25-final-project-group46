@@ -1,12 +1,13 @@
 from collections import Counter
 import numpy as np
 from autoop.core.ml.model.base_model import Model
+from typing import Optional
 
 
 class KNN(Model):
     """A class for finding the k nearest neighbours."""
 
-    def __init__(self, parameters: dict, num_k: int) -> None:
+    def __init__(self, parameters: Optional[dict] = None, num_k: int = 4) -> None:
         """Initialize the KNN model with given parameters and k value. """
         super().__init__(parameters if parameters is not None else {}, type="classification")
         self.k = num_k
