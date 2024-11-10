@@ -8,8 +8,8 @@ METRICS = [
     "mean_absolute_error",
     "root_mean_squared_error",
     "accuracy",
-    "micro_precision",
-    "mirco_recall",
+    "precision",
+    "recall",
 ]
 
 
@@ -20,8 +20,8 @@ def get_metric(name: str) -> "Metric":
         "mean_absolute_error": MeanAbsoluteError(),
         "root_mean_squared_error": RootMeanSquaredError(),
         "accuracy": Accuracy(),
-        "micro_precision": Precision(),
-        "micro_recall": Recall(),
+        "precision": Precision(),
+        "recall": Recall(),
     }
 
     if name in metrics:
@@ -37,10 +37,10 @@ class Metric(ABC):
         """Evaluate the model based on the ground truth and predictions."""
         return
 
-    def __call__(self) -> None:
-        """Initiate call method for base class."""
-        return f"{self.__class__.__name__}"
-
+    @abstractmethod
+    def __str__(self) -> str:
+        """Return only the metric class name as a string."""
+        pass
 
 # Classes for regression
 class MeanSquaredError(Metric):
@@ -50,6 +50,10 @@ class MeanSquaredError(Metric):
         """Evaltuate the model."""
         squared_errors = np.sum((ground_truth - predictions)**2)
         return squared_errors / len(ground_truth)
+    
+    def __str__(self) -> str:
+        """Returns the name of the class."""
+        return "MeanSquaredError"
 
 
 class MeanAbsoluteError(Metric):
@@ -58,6 +62,10 @@ class MeanAbsoluteError(Metric):
     def evaluate(self,ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaltuate the model."""
         return np.mean(np.abs(ground_truth - predictions))
+        
+    def __str__(self) -> str:
+        """Returns the name of the class."""
+        return "MeanAbsoluteError"
 
         
 class RootMeanSquaredError(Metric):
@@ -68,16 +76,25 @@ class RootMeanSquaredError(Metric):
         squared_errors = np.sum((ground_truth - predictions)**2)
         denominator = np.sum((ground_truth - np.mean(ground_truth))**2)
         return 1 - (squared_errors / denominator)
+    
+    def __str__(self) -> str:
+        """Returns the name of the class."""        
+        return "RootMeanSquaredError"
 
 
 # Classes for classification
 class Accuracy(Metric):
     """Class for the accuracy metric."""
 
-    def evaluate(self, predictions: np.ndarray, ground_truth: np.ndarray) -> float:
+    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaluate the model's accuracy based on ground truth and predictions."""
         true_positives = np.sum(ground_truth == predictions)
         return true_positives/len(ground_truth)
+    
+    def __str__(self) -> str:
+        """Returns the name of the class."""
+        return "Accuracy"
+    
 
 
 class Precision(Metric):
@@ -87,7 +104,7 @@ class Precision(Metric):
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
         """Evaltuate the model."""
-        features = list(set(ground_truth.tolist()))
+        features = np.unique(ground_truth)
         scores = []
         for f in features:
             true_pos = np.sum((ground_truth == f) & (predictions == f))
@@ -96,6 +113,10 @@ class Precision(Metric):
             precision = true_pos/all_pos if all_pos > 0 else 0
             scores.append(precision)
         return np.mean(scores)
+    
+    def __str__(self) -> str:
+        """Returns the name of the class."""
+        return "Precision"
 
 
 
@@ -106,7 +127,7 @@ class Recall(Metric):
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
         """Evaltuate the model."""
-        features = list(set(ground_truth.tolist()))
+        features = np.unique(ground_truth)
         scores = []
         for f in features:
             true_pos = np.sum((ground_truth == f) & (predictions == f))
@@ -115,5 +136,9 @@ class Recall(Metric):
             recall = true_pos/all_true_pos if all_true_pos > 0 else 0
             scores.append(recall)
         return np.mean(scores)
+    
+    def __str__(self) -> str:
+        """Returns the name of the class."""
+        return "Recall"
 
 
