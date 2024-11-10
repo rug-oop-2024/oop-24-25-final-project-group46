@@ -104,4 +104,5 @@ class LocalStorage(Storage):
         # Ensure paths are OS-agnostic
         return os.path.normpath(os.path.join(self._base_path, path))
 
+
 default_storage_instance = LocalStorage(base_path="./assets")
