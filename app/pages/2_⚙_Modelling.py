@@ -267,6 +267,4 @@ else:
             st.write("### Training Results")
             for metric_name, result in results.items():
                 st.write(f"{metric_name}: {result}")
-
             st.success("Model training and evaluation complete!")
-   
