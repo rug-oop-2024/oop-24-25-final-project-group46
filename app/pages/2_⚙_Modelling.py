@@ -156,9 +156,7 @@ else:
                 0.9,
                 0.8
             )
-            st.write(
-                f"Training/Test Split Ratio: {split_ratio:.2f}/{1 - split_ratio:.2f}"
-            )
+            st.write(f"Training/Test Split Ratio: {split_ratio:.2f}/{1 - split_ratio:.2f}")
 
             # Define available metrics and their types
             metrics_info = {
@@ -170,17 +168,24 @@ else:
                 "recall": "classification",
             }
 
-            # Define a function to display compatible metrics based on task type
+            # Define a function to display compatible metrics
             def get_compatible_metrics(task_type: str) -> dict:
-                """Show the compatibale metrics."""
+                """Show the compatible metrics."""
                 if task_type == "Regression":
-                    return {name: m_type for name, m_type\
-                        in metrics_info.items() if m_type == "regression"}
+                    return {
+                        name: m_type
+                        for name, m_type in metrics_info.items()
+                        if m_type == "regression"
+                    }
                 elif task_type == "Classification":
-                    return {name: m_type for name, m_type\
-                        in metrics_info.items() if m_type == "classification"}
+                    return {
+                        name: m_type
+                        for name, m_type in metrics_info.items()
+                        if m_type == "classification"
+                    }
                 else:
                     return {}
+
 
             compatible_metrics = get_compatible_metrics(task_type)
             st.write("### Available Metrics")
@@ -203,18 +208,33 @@ else:
             for metric in selected_metrics:
                 st.write(f"- {metric.__class__.__name__}")
 
-
             # Display summary of configurations
             st.write("### Summary of Configurations")
-            st.markdown(f"""
+
+            input_features_str = (
+                ', '.join([str(feature) for feature in input_features])
+                if input_features else "None selected"
+            )
+            metrics_str = (
+                ', '.join([metric.__class__.__name__ for metric in selected_metrics])
+                if selected_metrics else "None selected"
+            )
+
+            split_ratio_str = (
+                f"{split_ratio:.2f} (Training) / {1 - split_ratio:.2f} (Testing)"
+            )
+
+            st.markdown(
+                f"""
                 - **Selected Dataset**: {selected_dataset_name}
-                - **Input Features**: {', '.join([str(feature) for feature in input_features]) if input_features else "None selected"}
+                - **Input Features**: {input_features_str}
                 - **Target Feature**: {target_feature}
                 - **Task Type**: {task_type}
                 - **Selected Model**: {model_name}
-                - **Split Ratio**: {split_ratio:.2f} (Training) / {1 - split_ratio:.2f} (Testing)
-                - **Metrics**: {', '.join([metric.__class__.__name__ for metric in selected_metrics]) if selected_metrics else "None selected"}
-            """)
+                - **Split Ratio**: {split_ratio_str}
+                - **Metrics**: {metrics_str}
+                """
+            )
 
         # Train the class and report the results of the pipeline
         if st.button("Train Model"):
@@ -227,18 +247,15 @@ else:
                 target_feature=target_feature,
                 split=split_ratio
             )
-            
+
             # Split the data, train, and evaluate
             st.write("### Training the Model...")
             results = pipeline.execute()
-            
+
             # Display the results
             st.write("### Training Results")
             for metric_name, result in results.items():
                 st.write(f"{metric_name}: {result}")
-            
+
             st.success("Model training and evaluation complete!")
-
-
-    
-            
+   
