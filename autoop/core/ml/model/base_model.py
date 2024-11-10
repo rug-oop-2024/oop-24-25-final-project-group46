@@ -55,6 +55,12 @@ class Model(Artifact, ABC):
         """Provide a getter for the parameters variable."""
         return self._type
     
+    @parameters.setter
+    def type(self, value: str) -> str:
+        if not isinstance(value, str):
+            raise TypeError("Invalid type, type has to be a string.")
+        self._type = value
+    
     def to_artifact(self, name: str) -> "Artifact":
         """Define a method to convert the model to an artifact."""
         model = pickle.dumps(self)

@@ -213,17 +213,17 @@ else:
                 target_feature=target_feature,
                 split=split_ratio
             )
-        
-        # Split the data, train, and evaluate
-        st.write("### Training the Model...")
-        results = pipeline.execute()
-        
-        # Display the results
-        st.write("### Training Results")
-        for metric_name, result in results.items():
-            st.write(f"{metric_name}: {result}")
-        
-        st.success("Model training and evaluation complete!")
+            
+            # Split the data, train, and evaluate
+            st.write("### Training the Model...")
+            results = pipeline.execute()
+            
+            # Display the results
+            st.write("### Training Results")
+            for metric_name, result in results.items():
+                st.write(f"{metric_name}: {result}")
+            
+            st.success("Model training and evaluation complete!")
 
 
     
