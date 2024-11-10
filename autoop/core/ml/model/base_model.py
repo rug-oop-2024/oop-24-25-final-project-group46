@@ -9,20 +9,18 @@ import pickle
 class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
 
-    def __init__(self, name:str, type: Literal["regression", "classification"], parameters: Optional[dict] = None, model: object = None, *args, **kwargs) -> None:
+    def __init__(self, name:str, type: Literal["regression", "classification"], parameters: Optional[dict] = None, model: object = None, **kwargs) -> None:
         """Initialize the model with an empty parameters dictionary."""
         self._parameters = parameters if parameters is not None else {}
         self._model = model if model is not None else {}
         self._type = type
-
-        Artifact().__init__(
+        Artifact.__init__(
             self,
             name=name,
             asset_path=f"models/{name}.pkl",
             data=b"",
             version="1.0",
-            *args,
-            **kwargs
+            **kwargs,
         )
  
 
