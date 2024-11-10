@@ -13,7 +13,12 @@ class RandomForestClassification(Model):
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
         """Create a constructor for the SVR model."""
         self._type = "classification"
-        super().__init__(name = "RandomForestClassification", type = self._type, parameters = parameters, **kwargs)
+        super().__init__(
+            name="RandomForestClassification",
+            type=self._type,
+            parameters=parameters,
+            **kwargs
+        )
         self.model = RandomForestClassifier(**self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:

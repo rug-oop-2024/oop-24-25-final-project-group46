@@ -12,7 +12,12 @@ class SupportVectorRegression(Model):
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
         """Create a constructor for the Support vector regression model."""
         self._type = "regression"
-        super().__init__(name = "SupportVectorRegression", type = self._type, parameters = parameters, **kwargs)
+        super().__init__(
+            name="SupportVectorRegression",
+            type=self._type,
+            parameters=parameters,
+            **kwargs
+        )
         self.model = SVR(**self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:

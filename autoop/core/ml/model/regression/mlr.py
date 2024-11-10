@@ -7,7 +7,12 @@ class MultipleLinearRegression(Model):
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
         """Initialize the MLR model."""
         self._type = "regression"
-        super().__init__(name = "MultipleLinearRegression", type = self._type, parameters = parameters, **kwargs)
+        super().__init__(
+            name="MultipleLinearRegression",
+            type=self._type,
+            parameters=parameters,
+            **kwargs
+        )
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Finding the optimal parameters using the observations."""
