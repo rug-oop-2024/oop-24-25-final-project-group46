@@ -55,7 +55,7 @@ class Model(Artifact, ABC):
         """Provide a getter for the parameters variable."""
         return self._type
     
-    @parameters.setter
+    @type.setter
     def type(self, value: str) -> str:
         if not isinstance(value, str):
             raise TypeError("Invalid type, type has to be a string.")
