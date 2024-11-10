@@ -11,10 +11,9 @@ class DecisionTreeClassification(Model):
     """A wrapper for Decision Tree Classification."""
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
         """Create a constructor for the Decision Tree Classifier model."""
-        if parameters is None:
-            parameters = {}
-        super().__init__(self, name="DecisionTreeClassification", type="classification", **kwargs)
-        self._model = DecisionTreeClassifier(**self._parameters)
+        super().__init__(self, name = "dtc", type = "classification", parameters = parameters, **kwargs)
+        parameters = parameters if not None else {}
+        self._model = DecisionTreeClassifier(**self.parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Fit the Decision Tree Classifier to the data."""

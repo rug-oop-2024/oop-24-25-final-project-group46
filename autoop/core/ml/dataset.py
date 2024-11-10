@@ -14,8 +14,8 @@ class Dataset(Artifact):
         name: str,
         asset_path: str,
         version: str = "1.0.0",
-        tags: str = None,
-        metadata: dict = None
+        tags: str = "",
+        metadata: dict = None 
     ) -> "Dataset":
         """Create a static method for transferring the data correctly."""
         return Dataset(
@@ -23,8 +23,8 @@ class Dataset(Artifact):
             asset_path=asset_path,
             data=data.to_csv(index=False).encode(),
             version=version,
-            tags=tags if not None else [],
-            metadata=metadata if not None else {}
+            tags=tags or "",
+            metadata=metadata or {}, 
         )
 
     def read(self) -> pd.DataFrame:

@@ -42,24 +42,13 @@ if uploaded_file is not None:
         "run_id": _generate_id("run")
         }
 
-    # if st.button("Detect Feature Types"):
-    #     detected_features = detect_feature_types(
-    #         Dataset.from_dataframe(
-    #             df,
-    #             name=dataset_name,
-    #             asset_path=f"{dataset_name}.csv"
-    #         )
-    #     )
-
-
     if st.button("Save Dataset"):
         dataset = Dataset.from_dataframe(
-        df,
-        name = dataset_name, 
-        asset_path = f"{dataset_name}.csv",
-        version = "1.0.0",
-        tags=tags,
-        metadata=metadata
+            df,
+            name = dataset_name, 
+            asset_path = f"{dataset_name}.csv",
+            tags=tags if not None else "",
+            metadata=metadata if not None else {}
         )
         
         dataset_exists = any(
@@ -69,6 +58,7 @@ if uploaded_file is not None:
         if dataset_exists:
             st.warning(f"Dataset '{dataset_name}' (version {dataset.version}) has already been saved.")
         else:
+            st.write(dataset.id)
             automl.registry.register(dataset)
             st.success(f"Dataset '{dataset_name}' has been saved successfully!")
             datasets = automl.registry.list(type="dataset")

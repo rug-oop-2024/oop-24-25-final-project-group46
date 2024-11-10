@@ -39,7 +39,7 @@ class Metric(ABC):
 
     def __call__(self) -> None:
         """Initiate call method for base class."""
-        return f"{__class__.__name__}"
+        return f"{self.__class__.__name__}"
 
 
 # Classes for regression
@@ -67,7 +67,7 @@ class RootMeanSquaredError(Metric):
         """Evaltuate the model."""
         squared_errors = np.sum((ground_truth - predictions)**2)
         denominator = np.sum((ground_truth - np.mean(ground_truth))**2)
-        return (1 - squared_errors) / denominator
+        return 1 - (squared_errors / denominator)
 
 
 # Classes for classification
@@ -84,45 +84,36 @@ class Precision(Metric):
     """Class for the precision metric."""
 
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray
+        self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
         """Evaltuate the model."""
-        # Precision formula: true_positive / (true_positive + false_positive)
-        tp = sum(
-            1
-            for y_true, y_pred in zip(ground_truth, prediction)
-            if y_true == 1 and y_pred == 1
-        )
-        fp = sum(
-            1
-            for y_true, y_pred in zip(ground_truth, prediction)
-            if y_true == 0 and y_pred == 1
-        )
+        features = list(set(ground_truth.tolist()))
+        scores = []
+        for f in features:
+            true_pos = np.sum((ground_truth == f) & (predictions == f))
+            false_pos = np.sum((ground_truth != f) & (predictions == f))
+            all_pos = true_pos + false_pos
+            precision = true_pos/all_pos if all_pos > 0 else 0
+            scores.append(precision)
+        return np.mean(scores)
 
-        if tp + fp == 0:
-            return 0.0
-        return tp / (tp + tp)
 
 
 class Recall(Metric):
     """Class for the Recall metric."""
 
     def evaluate(
-        self, ground_truth: np.ndarray, prediction: np.ndarray
+        self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
         """Evaltuate the model."""
-        # Recall formula: true_positive / (true_positive + false_negative)
-        tp = sum(
-            1
-            for y_true, y_pred in zip(ground_truth, prediction)
-            if y_true == 1 and y_pred == 1
-        )
-        fn = sum(
-            1
-            for y_true, y_pred in zip(ground_truth, prediction)
-            if y_true == 1 and y_pred == 0
-        )
+        features = list(set(ground_truth.tolist()))
+        scores = []
+        for f in features:
+            true_pos = np.sum((ground_truth == f) & (predictions == f))
+            false_neg = np.sum((ground_truth == f) & (predictions != f))
+            all_true_pos = true_pos + false_neg
+            recall = true_pos/all_true_pos if all_true_pos > 0 else 0
+            scores.append(recall)
+        return np.mean(scores)
 
-        if tp + fn == 0:
-            return 0.0
-        return tp / (tp + fn)
+

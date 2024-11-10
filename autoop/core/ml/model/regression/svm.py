@@ -4,14 +4,17 @@ from sklearn.svm import SVR
 
 from autoop.core.ml.model.base_model import Model
 
+from typing import Optional
+
 
 class SupportVectorRegression(Model):
     """A wrapper for Support Vector Regression using scikit-learn's SVR."""
 
-    def __init__(self, kernel: str = "rbf", parameters: dict = None) -> None:
-        """Create a constructor for the SVR model."""
-        super().__init__(parameters if parameters else {}, type="regression")
-        self.model = SVR(kernel=kernel, **self._parameters)
+    def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
+        """Initialize the Multiple Linear Regression model."""
+        super().__init__(self, name = "svm", type = "regression", parameters = parameters, **kwargs)
+        parameters = parameters if not None else {}
+        self.model = SVR(**self.parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Fit the Support Vector Regressor to the data."""

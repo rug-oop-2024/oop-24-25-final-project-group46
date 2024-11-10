@@ -7,10 +7,12 @@ from typing import Optional
 class KNN(Model):
     """A class for finding the k nearest neighbours."""
 
-    def __init__(self, parameters: Optional[dict] = None, num_k: int = 4) -> None:
-        """Initialize the KNN model with given parameters and k value. """
-        super().__init__(parameters if parameters is not None else {}, type="classification")
-        self.k = num_k
+    def __init__(self, parameters: Optional[dict] = None, num_k: int = 4, **kwargs) -> None:
+        """Create a constructor for the Decision Tree Classifier model."""
+        super().__init__(self, name = "knn", type = "classification", parameters = parameters, **kwargs)
+        parameters = parameters if not None else {}
+        self.num_k = num_k
+
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Store the training data and their labels."""
