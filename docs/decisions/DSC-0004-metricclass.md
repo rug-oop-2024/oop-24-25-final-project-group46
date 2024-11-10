@@ -1,5 +1,5 @@
 # DSC-0004: Metric class
-# Date: 2021-10-22
+# Date: 2021-10-24
 # Decision: Make a metric class with 6 different metrics as extentions for the models. This includes ABC Metric which is the general form for the metrics. The 6 metrics are all inherited from this ABC. This includes the mean squared error, mean absolute error, root mean squared error for the evaluation of the regression models. For the classification models we added the metrics accuracy, precision and recall. 
 # Status: Accepted
 # Motivation: The metrics are needed to evaluate the model in the pipeline. 

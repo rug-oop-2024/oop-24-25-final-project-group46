@@ -1,5 +1,5 @@
 # DSC-0008: Dataset manegement.
-# Date: 2021-10-22
+# Date: 2024-11-05
 # Decision:  To upload, view, and alter datasets. we used the datasets page of the streamlit app. This page first shows the list of datasets in the registry. This includes the datasets that are stored earlier. Finaly the dataset page includes a option to select a dataset and view of delete it. 
 # Status: Accepted
 # Motivation: This page includes all the functions needed to add, view and delete datasets in the storage. The user is prompted with the needed functions. 
