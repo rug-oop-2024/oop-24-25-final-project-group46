@@ -94,6 +94,9 @@ E.g. docs/decisions/DSC-0001-use-typescript.md
 * Showcase the capability of your streamlit app with at least 3 different usecases on real datasets (from Kaggle). 
 Some examples include housing prices, second-hand cars, etc.
 
+The link to our google docs file with the user cases: https://docs.google.com/document/d/1_1XuBDwCc8-S-LP9HAJhIGAHQEvR90ulMoV0b1S3Oyc/edit?usp=sharing
+
+
 ### Checklist
 - [ ] I have read the instructions carefully.
 - [ ] I have filled my personal rubric.
