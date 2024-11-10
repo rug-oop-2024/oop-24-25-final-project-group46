@@ -6,6 +6,7 @@ from autoop.core.ml.model.base_model import Model
 
 from typing import Optional
 
+
 class DecisionTreeRegression(Model):
     """A wrapper for Decision Tree Regression."""
 
@@ -15,7 +16,7 @@ class DecisionTreeRegression(Model):
         super().__init__(
             name="DecisionTreeRegression",
             type=self._type,
-            parameters=parameters, 
+            parameters=parameters,
             **kwargs
         )
         self.model = DecisionTreeRegressor(**self._parameters)

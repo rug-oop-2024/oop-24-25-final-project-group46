@@ -94,7 +94,7 @@ class RootMeanSquaredError(Metric):
         return 1 - (squared_errors / denominator)
 
     def __str__(self) -> str:
-        """Returns the name of the class."""    
+        """Returns the name of the class."""  
         return "RootMeanSquaredError"
 
 
@@ -151,10 +151,10 @@ class Recall(Metric):
             true_pos = np.sum((ground_truth == f) & (predictions == f))
             false_neg = np.sum((ground_truth == f) & (predictions != f))
             all_true_pos = true_pos + false_neg
-            recall = true_pos/all_true_pos if all_true_pos > 0 else 0
+            recall = true_pos / all_true_pos if all_true_pos > 0 else 0
             scores.append(recall)
         return np.mean(scores)
-    
+
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "Recall"

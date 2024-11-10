@@ -6,6 +6,7 @@ from autoop.core.ml.model.base_model import Model
 
 from typing import Optional
 
+
 class SupportVectorRegression(Model):
     """A wrapper for Support Vector Regression using scikit-learn's SVR."""
 

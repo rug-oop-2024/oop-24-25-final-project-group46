@@ -2,6 +2,7 @@ import numpy as np
 from autoop.core.ml.model.base_model import Model
 from typing import Optional
 
+
 class MultipleLinearRegression(Model):
     """A class for Multiple Linear Regression model."""
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
