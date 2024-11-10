@@ -274,5 +274,3 @@ else:
             st.write("### Predictions")
             st.write(f"train_predictions: {results['train_predictions']}")
             st.write(f"test_predictions: {results['test_predictions']}")
-
-
