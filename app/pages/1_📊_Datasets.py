@@ -29,7 +29,7 @@ if uploaded_file is not None:
     dataset_name = st.text_input(
         "Dataset name", value=uploaded_file.name.split('.')[0]
     )
-    
+
     tags = st.text_input("Give the dataset a tag.")
 
     def _generate_id(prefix: str) -> str:
@@ -47,36 +47,53 @@ if uploaded_file is not None:
         dataset = Dataset.from_dataframe(
         df,
         name=dataset_name,
-        asset_path =f"{dataset_name}.csv",
+        asset_path=f"{dataset_name}.csv",
         version="1.0.0",
         tags=tags,
         metadata=metadata
-        )
+    )
 
         dataset_exists = any(
-            (d.name == dataset.name and d.version == dataset.version) for d in datasets
+            (
+                d.name == dataset.name and d.version == dataset.version
+            )
+            for d in datasets
         )
+
 
         if dataset_exists:
             st.warning(
-                f"Dataset '{dataset_name}' (version {dataset.version}) has already been saved."
-                )
+                f"Dataset '{dataset_name}' (version {dataset.version}) "
+                "has already been saved."
+            )
+
 
         else:
             automl.registry.register(dataset)
-            st.success(f"Dataset '{dataset_name}' has been saved successfully!")
+            st.success(f"Dataset '{dataset_name}' is successfully saved!")
             datasets = automl.registry.list(type="dataset")
             st.write(datasets)
 
-                    
+
 st.write("# 📂 Saved Datasets")
 if datasets:
-    dataset_info = [{"Name": dataset.name, "Type": dataset.type, "ID": dataset.id, "version": dataset.version, "Tags": dataset.tags, "Metadata": dataset.metadata, "asset path": dataset.asset_path} for dataset in datasets]
+    dataset_info = [{
+        "Name": dataset.name,
+        "Type": dataset.type,
+        "ID": dataset.id, "version": dataset.version,
+        "Tags": dataset.tags,
+        "Metadata": dataset.metadata,
+        "asset path": dataset.asset_path
+    } for dataset in datasets]
     dataset_df = pd.DataFrame(dataset_info)
     st.dataframe(dataset_df)
 
-    selected_dataset_name = st.selectbox("Select a dataset to view or delete", options=[d.name for d in datasets])
-    selected_dataset = next((d for d in datasets if d.name == selected_dataset_name), None)
+    selected_dataset_name = st.selectbox(
+        "Select a dataset to view or delete", options=[d.name for d in datasets]
+    )
+    selected_dataset = next((
+        d for d in datasets if d.name == selected_dataset_name
+    ), None)
 
     if selected_dataset:
         st.write(f"selected dataset id: {selected_dataset.id}")
