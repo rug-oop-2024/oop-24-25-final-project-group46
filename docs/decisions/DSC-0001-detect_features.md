@@ -3,6 +3,6 @@
 # Decision: Added detect features method
 # Status: Accepted
 # Motivation: First requirement of model
-# Reason: Check for numerical or categorical
-# Limitations:
-# Alternatives:
+# Reason: Check for numerical or categorical features
+# Limitations: -
+# Alternatives: - 
