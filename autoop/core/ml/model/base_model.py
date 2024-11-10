@@ -15,8 +15,7 @@ class Model(Artifact, ABC):
             type: Literal["regression", "classification"],
             parameters: Optional[dict] = None,
             model: object = None,
-            **kwargs
-            ) -> None:
+            **kwargs) -> None:
         """Initialize the model with an empty parameters dictionary."""
         self._parameters = parameters if parameters is not None else {}
         self._model = model if model is not None else {}

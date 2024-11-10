@@ -94,7 +94,7 @@ class RootMeanSquaredError(Metric):
         return 1 - (squared_errors / denominator)
 
     def __str__(self) -> str:
-        """Returns the name of the class."""  
+        """Returns the name of the class."""
         return "RootMeanSquaredError"
 
 
