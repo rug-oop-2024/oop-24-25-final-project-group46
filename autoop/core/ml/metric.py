@@ -79,7 +79,7 @@ class MeanAbsoluteError(Metric):
         """Returns the name of the class."""
         return "MeanAbsoluteError"
 
-   
+
 class RootMeanSquaredError(Metric):
     """Class for the root mean squared error metric."""
 
@@ -94,7 +94,7 @@ class RootMeanSquaredError(Metric):
         return 1 - (squared_errors / denominator)
 
     def __str__(self) -> str:
-        """Returns the name of the class."""      
+        """Returns the name of the class."""    
         return "RootMeanSquaredError"
 
 
@@ -102,15 +102,18 @@ class RootMeanSquaredError(Metric):
 class Accuracy(Metric):
     """Class for the accuracy metric."""
 
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
-        """Evaluate the model's accuracy based on ground truth and predictions."""
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        predictions: np.ndarray
+    ) -> float:
+        """Evaluate the model's accuracy on ground truth and predictions."""
         true_positives = np.sum(ground_truth == predictions)
-        return true_positives/len(ground_truth)
-    
+        return true_positives / len(ground_truth)
+
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "Accuracy"
-    
 
 
 class Precision(Metric):
@@ -126,14 +129,13 @@ class Precision(Metric):
             true_pos = np.sum((ground_truth == f) & (predictions == f))
             false_pos = np.sum((ground_truth != f) & (predictions == f))
             all_pos = true_pos + false_pos
-            precision = true_pos/all_pos if all_pos > 0 else 0
+            precision = true_pos / all_pos if all_pos > 0 else 0
             scores.append(precision)
         return np.mean(scores)
-    
+
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "Precision"
-
 
 
 class Recall(Metric):
@@ -156,5 +158,3 @@ class Recall(Metric):
     def __str__(self) -> str:
         """Returns the name of the class."""
         return "Recall"
-
-
