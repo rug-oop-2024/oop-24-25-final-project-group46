@@ -53,10 +53,10 @@ else:
     if selected_dataset:
         # Display information about the selected dataset
         st.write("### Selected Dataset Details")
-        st.write(f"**Name**: {selected_dataset.name}")
-        st.write(f"**Version**: {selected_dataset.version}")
-        st.write(f"**Tags**: {', '.join(selected_dataset.tags)}")
-        st.write(f"**Metadata**: {selected_dataset.metadata}")
+        st.write(f"*Name*: {selected_dataset.name}")
+        st.write(f"*Version*: {selected_dataset.version}")
+        st.write(f"*Tags*: {', '.join(selected_dataset.tags)}")
+        st.write(f"*Metadata*: {selected_dataset.metadata}")
         st.write(f"Type selected_dataset.data: {type(selected_dataset.data)}")
 
         # Check if selected_dataset.data is available and is a DataFrame
@@ -117,7 +117,7 @@ else:
             else:
                 task_type = "Unknown"
 
-            st.write(f"**Suggested Task Type**: {task_type}")
+            st.write(f"*Suggested Task Type*: {task_type}")
 
             # Model selection based on task type
             if task_type == "Classification":
@@ -164,7 +164,6 @@ else:
                 f"{1 - split_ratio:.2f}"
             )
 
-
             # Define available metrics and their types
             metrics_info = {
                 "mean_squared_error": "regression",
@@ -196,7 +195,7 @@ else:
             compatible_metrics = get_compatible_metrics(task_type)
             st.write("### Available Metrics")
             for metric_name, metric_type in compatible_metrics.items():
-                st.write(f"**Metric**: {metric_name}, **Type**: {metric_type}")
+                st.write(f"*Metric: {metric_name}, **Type*: {metric_type}")
 
             # Select metrics
             selected_metric_names = st.multiselect(
@@ -212,7 +211,7 @@ else:
                     st.error(f"Error loading metric {metric_name}: {e}")
             st.write("Selected Metrics:")
             for metric in selected_metrics:
-                st.write(f"- {metric.__class__.__name__}")
+                st.write(f"- {metric._class.name_}")
 
             # Display summary of configurations
             st.write("### Summary of Configurations")
@@ -223,13 +222,11 @@ else:
             )
             metrics_str = (
                 ', '.join(
-                    metric.__class__.__name__
+                    metric._class.name_
                     for metric in selected_metrics
                 )
                 if selected_metrics else "None selected"
             )
-
-
             split_ratio_str = (
                 f"{split_ratio:.2f} (Training) / "
                 f"{1 - split_ratio:.2f} (Testing)"
@@ -237,13 +234,13 @@ else:
 
             st.markdown(
                 f"""
-                - **Selected Dataset**: {selected_dataset_name}
-                - **Input Features**: {input_features_str}
-                - **Target Feature**: {target_feature}
-                - **Task Type**: {task_type}
-                - **Selected Model**: {model_name}
-                - **Split Ratio**: {split_ratio_str}
-                - **Metrics**: {metrics_str}
+                - *Selected Dataset*: {selected_dataset_name}
+                - *Input Features*: {input_features_str}
+                - *Target Feature*: {target_feature}
+                - *Task Type*: {task_type}
+                - *Selected Model*: {model_name}
+                - *Split Ratio*: {split_ratio_str}
+                - *Metrics*: {metrics_str}
                 """
             )
 
