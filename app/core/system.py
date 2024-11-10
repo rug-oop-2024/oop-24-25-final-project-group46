@@ -26,7 +26,7 @@ class ArtifactRegistry():
             "asset_path": artifact.asset_path,
             "tags": artifact.tags,
             "metadata": artifact.metadata,
-            "type": artifact.type,
+            "type": artifact._type,
         }
         self._database.set("artifacts", artifact.id, entry)
 
