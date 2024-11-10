@@ -43,7 +43,10 @@ else:
     dataset_names = [dataset.name for dataset in datasets]
     selected_dataset_name = st.selectbox("Select a Dataset", dataset_names)
     selected_dataset = next(
-        (dataset for dataset in datasets if dataset.name == selected_dataset_name),
+        (
+            dataset for dataset in datasets
+            if dataset.name == selected_dataset_name
+        ),
         None
     )
 
@@ -156,7 +159,11 @@ else:
                 0.9,
                 0.8
             )
-            st.write(f"Training/Test Split Ratio: {split_ratio:.2f}/{1 - split_ratio:.2f}")
+            st.write(
+                f"Training/Test Split Ratio: {split_ratio:.2f}/"
+                f"{1 - split_ratio:.2f}"
+            )
+
 
             # Define available metrics and their types
             metrics_info = {
@@ -185,7 +192,6 @@ else:
                     }
                 else:
                     return {}
-
 
             compatible_metrics = get_compatible_metrics(task_type)
             st.write("### Available Metrics")
@@ -216,12 +222,17 @@ else:
                 if input_features else "None selected"
             )
             metrics_str = (
-                ', '.join([metric.__class__.__name__ for metric in selected_metrics])
+                ', '.join(
+                    metric.__class__.__name__
+                    for metric in selected_metrics
+                )
                 if selected_metrics else "None selected"
             )
 
+
             split_ratio_str = (
-                f"{split_ratio:.2f} (Training) / {1 - split_ratio:.2f} (Testing)"
+                f"{split_ratio:.2f} (Training) / "
+                f"{1 - split_ratio:.2f} (Testing)"
             )
 
             st.markdown(
