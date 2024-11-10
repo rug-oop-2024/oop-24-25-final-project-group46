@@ -211,7 +211,7 @@ else:
                     st.error(f"Error loading metric {metric_name}: {e}")
             st.write("Selected Metrics:")
             for metric in selected_metrics:
-                st.write(f"- {metric._class.name_}")
+                st.write(f"- {metric.__class__.__name__}")
 
             # Display summary of configurations
             st.write("### Summary of Configurations")
@@ -222,7 +222,7 @@ else:
             )
             metrics_str = (
                 ', '.join(
-                    metric._class.name_
+                    metric.__class__.__name__
                     for metric in selected_metrics
                 )
                 if selected_metrics else "None selected"

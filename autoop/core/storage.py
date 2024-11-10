@@ -6,9 +6,9 @@ from glob import glob
 
 class NotFoundError(Exception):
     """Create a not found exception when the path is not found."""
-    def _init_(self, path: str) -> None:
+    def __init__(self, path: str) -> None:
         """Define a constructor for the NotFound exception."""
-        super()._init_(f"Path not found: {path}")
+        super().__init__(f"Path not found: {path}")
 
 
 class Storage(ABC):
@@ -57,7 +57,7 @@ class Storage(ABC):
 
 class LocalStorage(Storage):
     """Create a class for the local storage, inherits from Storage."""
-    def _init_(self, base_path: str = "./assets") -> None:
+    def __init__(self, base_path: str = "./assets") -> None:
         """Define a constructor for the local storage."""
         self._base_path = os.path.normpath(base_path)
         if not os.path.exists(self._base_path):
@@ -89,7 +89,7 @@ class LocalStorage(Storage):
         path = self._join_path(prefix)
         self._assert_path_exists(path)
         # Use os.path.join for compatibility across platforms
-        keys = glob(os.path.join(path, "", "*"), recursive=True)
+        keys = glob(os.path.join(path, "**", "*"), recursive=True)
         return [
             os.path.relpath(p, self._base_path)
             for p in keys
