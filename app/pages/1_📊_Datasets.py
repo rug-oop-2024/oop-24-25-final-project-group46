@@ -45,13 +45,13 @@ if uploaded_file is not None:
 
     if st.button("Save Dataset"):
         dataset = Dataset.from_dataframe(
-        df,
-        name=dataset_name,
-        asset_path=f"{dataset_name}.csv",
-        version="1.0.0",
-        tags=tags,
-        metadata=metadata
-    )
+            df,
+            name=dataset_name,
+            asset_path=f"{dataset_name}.csv",
+            version="1.0.0",
+            tags=tags,
+            metadata=metadata
+        )
 
         dataset_exists = any(
             (
@@ -60,13 +60,11 @@ if uploaded_file is not None:
             for d in datasets
         )
 
-
         if dataset_exists:
             st.warning(
                 f"Dataset '{dataset_name}' (version {dataset.version}) "
                 "has already been saved."
             )
-
 
         else:
             automl.registry.register(dataset)
@@ -89,7 +87,8 @@ if datasets:
     st.dataframe(dataset_df)
 
     selected_dataset_name = st.selectbox(
-        "Select a dataset to view or delete", options=[d.name for d in datasets]
+        "Select a dataset to view or delete",
+        options=[d.name for d in datasets]
     )
     selected_dataset = next((
         d for d in datasets if d.name == selected_dataset_name
@@ -110,7 +109,7 @@ if datasets:
                 "Asset Path": artifact.asset_path,
             })
 
- # Delete dataset button
+        # Delete dataset button
         if st.button("Delete Dataset"):
             automl.registry.delete(selected_dataset.id)
             st.success(f"Dataset '{selected_dataset.name}' has been deleted.")
