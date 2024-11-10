@@ -41,10 +41,10 @@ class Artifact(ABC):
         # Save the main data
         print(f"Saving main data to {self.asset_path}")
         self._storage.save(self.data, self.asset_path)
-
+        
         # Save the metadata as a JSON file in the same path
         metadata_path = f"{self.asset_path}_metadata.json"
-
+        
         metadata_content = {
             "name": self.name,
             "version": self.version,
@@ -54,19 +54,18 @@ class Artifact(ABC):
             "id": self.id,
             "asset_path": self.asset_path
         }
-
+        
         print(f"Saving metadata to {metadata_path}")
         self._storage.save(json.dumps(
             metadata_content).encode(),
             metadata_path
-        )
+            )
         return self.data
 
     def get_asset_id(self) -> str:
         """Generate an id based on asset_path and version."""
         if not self.asset_path or not self.version:
             raise ValueError(
-                "Both asset_path and version are required to generate an id."
-            )
+                "Both asset_path and version are required to generate an id.")
         encoded_path = base64.b64encode(self.asset_path.encode()).decode()
         return f"{encoded_path}:{self.version}"
