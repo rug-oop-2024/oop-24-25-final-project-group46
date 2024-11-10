@@ -2,6 +2,7 @@ from autoop.core.ml.artifact import Artifact
 import pandas as pd
 import io
 
+
 class Dataset(Artifact):
     """Create a class for datasets."""
     def __init__(self, *args, **kwargs) -> None:

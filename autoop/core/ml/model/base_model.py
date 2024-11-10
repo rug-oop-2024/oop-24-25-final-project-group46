@@ -9,7 +9,7 @@ import pickle
 class Model(Artifact, ABC):
     """Define a base model class for training and prediction."""
 
-    def __init__(self, name:str, type: Literal["regression", "classification"], parameters: Optional[dict] = None, model: object = None, **kwargs) -> None:
+    def __init__(self, name: str, type: Literal["regression", "classification"], parameters: Optional[dict] = None, model: object = None, **kwargs) -> None:
         """Initialize the model with an empty parameters dictionary."""
         self._parameters = parameters if parameters is not None else {}
         self._model = model if model is not None else {}
@@ -22,7 +22,6 @@ class Model(Artifact, ABC):
             version="1.0",
             **kwargs,
         )
- 
 
 
     @abstractmethod
@@ -49,18 +48,19 @@ class Model(Artifact, ABC):
 
     def _validate_dict(self, parameters: dict) -> bool:
         return isinstance(parameters, dict)
-    
+
     @property
     def type(self) -> str:
         """Provide a getter for the parameters variable."""
         return self._type
-    
+
     @type.setter
     def type(self, value: str) -> str:
+        """Set the parameters."""
         if not isinstance(value, str):
             raise TypeError("Invalid type, type has to be a string.")
         self._type = value
-    
+
     def to_artifact(self, name: str) -> "Artifact":
         """Define a method to convert the model to an artifact."""
         model = pickle.dumps(self)
