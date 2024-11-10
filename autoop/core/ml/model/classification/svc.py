@@ -9,11 +9,13 @@ from typing import Optional
 
 class SupportVectorClassification(Model):
     """A wrapper for Support Vector Regression using scikit-learn's SVR."""
+
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
-        """Create a constructor for the Decision Tree Classifier model."""
-        super().__init__(self, name = "svc", type = "classification", parameters = parameters, **kwargs)
-        parameters = parameters if not None else {}
-        self._model = SVC(**self.parameters)
+        """Create a constructor for the SVR model."""
+        if parameters is None:
+            parameters = {}
+        super().__init__(name="DecisionTreeClassification", type="classification", **kwargs)
+        self.model = SVC(**self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Fit the Support Vector Regressor to the data."""
