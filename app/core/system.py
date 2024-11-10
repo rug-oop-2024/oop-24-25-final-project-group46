@@ -26,7 +26,7 @@ class ArtifactRegistry():
             "asset_path": artifact.asset_path,
             "tags": artifact.tags,
             "metadata": artifact.metadata,
-            "type": artifact.type,
+            "type": artifact._type,
         }
         self._database.set("artifacts", artifact.id, entry)
 
@@ -60,18 +60,6 @@ class ArtifactRegistry():
             metadata=data["metadata"],
             data=self._storage.load(data["asset_path"]),
             type=data["type"],
-        )
-    
-    def get_dataset(self, artifact_id: str) -> "Dataset":
-        """Returns the dataset using the id."""
-        data = self._database.get("artifacts", artifact_id)
-        return Dataset(
-            name=data["name"],
-            version=data["version"],
-            asset_path=data["asset_path"],
-            tags=data["tags"],
-            metadata=data["metadata"],
-            data=self._storage.load(data["asset_path"]),
         )
 
     def delete(self, id: str) -> None:

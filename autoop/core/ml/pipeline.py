@@ -41,7 +41,8 @@ class Pipeline:
             raise ValueError(
                 "Model type must be regression for continuous feature."
             )
-
+        
+    
     def __str__(self) -> str:
         """Create a method for returning the pipeline."""
         return f"""
@@ -143,33 +144,29 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
+    def _train_evaluate(self) -> None:
+        """Evaluate the model on the training set."""
+        X = self._compact_vectors(self._train_X)
+        Y = self._train_y
+        self._train_metrics_results = []
+        predictions = self._model.predict(X)
+        for metric in self._metrics:
+            result = metric.evaluate(predictions, Y)
+            self._train_metrics_results.append((metric, result))
+        self._train_predictions = predictions
+
     def execute(self) -> dict:
         """Create a method for executing the previous methods."""
         self._preprocess_features()
         self._split_data()
         self._train()
 
-        train_X = self._compact_vectors(self._train_X)
-        train_y = self._train_y
-        train_predictions = self._model.predict(train_X)
-
-        train_metrics_results = []
-        for metric in self._metrics:
-            result = metric.evaluate(train_y, train_predictions)
-            train_metrics_results.append((metric, result))
-
-        test_X = self._compact_vectors(self._test_X)
-        test_y = self._test_y
-        test_predictions = self._model.predict(test_X)
-
-        test_metrics_results = []
-        for metric in self._metrics:
-            result = metric.evaluate(test_y, test_predictions)
-            test_metrics_results.append((metric, result))
+        self._train_evaluate()
+        self._evaluate()
 
         return {
-            "train_metrics": train_metrics_results,
-            "train_predictions": train_predictions,
-            "test_metrics": test_metrics_results,
-            "test_predictions": test_predictions,
+            "train_metrics": self._train_metrics_results,
+            "train_predictions": self._train_predictions,
+            "test_metrics": self._metrics_results,
+            "test_predictions": self._predictions,
         }

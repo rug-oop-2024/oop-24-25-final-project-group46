@@ -1,11 +1,19 @@
-from pydantic import BaseModel, Field
+from abc import ABC
+
+# self added
 
 
-
-class Feature(BaseModel):
+class Feature(ABC):
     """Feature class."""
-    name: str = Field()
-    type: str = Field(None)
+
+    def __init__(
+            self,
+            name: str,
+            type: str
+    ) -> None:
+        """Create a constructor for the feature base class."""
+        self.name = name
+        self.type = type
 
     def __str__(self) -> str:
         """Return the feature name plus type."""

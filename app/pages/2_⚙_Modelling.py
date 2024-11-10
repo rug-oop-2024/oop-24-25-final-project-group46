@@ -6,7 +6,7 @@ from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from autoop.core.ml.model.classification import DecisionTreeClassification
 from autoop.core.ml.model.classification import KNN
-from autoop.core.ml.model.classification import SupportVectorClassification
+from autoop.core.ml.model.classification import RandomForestClassification
 
 from autoop.core.ml.model.base_model import Model
 from autoop.core.ml.model.regression import SupportVectorRegression
@@ -106,13 +106,13 @@ else:
         
             # Model selection based on task type
             if task_type == "Classification":
-                model_name = st.selectbox("Select a Classification Model", ["Decision Tree", "K-Nearest Neighbors", "Support Vector Classifier"])
+                model_name = st.selectbox("Select a Classification Model", ["Decision Tree", "K-Nearest Neighbors", "Random Forests"])
                 if model_name == "Decision Tree":
                     model = DecisionTreeClassification()
                 elif model_name == "K-Nearest Neighbors":
                     model = KNN()
-                elif model_name == "Support Vector Classifier":
-                    model = SupportVectorClassification()
+                elif model_name == "Random Forests":
+                    model = RandomForestClassification()
             
             elif task_type == "Regression":
                 model_name = st.selectbox("Select a Regression Model", ["Decision Tree Regressor", "Multiple Linear Regression", "Support Vector Regressor"])
@@ -135,8 +135,8 @@ else:
                 "mean_absolute_error": "regression",
                 "root_mean_squared_error": "regression",
                 "accuracy": "classification",
-                "mirco-precision": "classification",
-                "micro-recall": "classification",
+                "precision": "classification",
+                "recall": "classification",
             }
 
             # Define a function to display compatible metrics based on task type
@@ -198,7 +198,7 @@ else:
         # Display the results
         st.write("### Training Results")
         for metric_name, result in results.items():
-            st.write(f"{metric_name}: {result:.4f}")
+            st.write(f"{metric_name}: {result}")
         
         st.success("Model training and evaluation complete!")
 

@@ -2,14 +2,12 @@ import numpy as np
 from autoop.core.ml.model.base_model import Model
 from typing import Optional
 
-
 class MultipleLinearRegression(Model):
     """A class for Multiple Linear Regression model."""
-
     def __init__(self, parameters: Optional[dict] = None, **kwargs) -> None:
-        """Initialize the Multiple Linear Regression model."""
-        super().__init__(self, name = "mlr", type = "regression", parameters = parameters, **kwargs)
-        parameters = parameters if not None else {}
+        """Initialize the MLR model."""
+        self._type = "regression"
+        super().__init__(name = "MultipleLinearRegression", type = self._type, parameters = parameters, **kwargs)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         """Finding the optimal parameters using the observations."""
