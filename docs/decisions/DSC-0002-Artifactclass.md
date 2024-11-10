@@ -1,5 +1,5 @@
 # DSC-0002: Artifact class
-# Date: 2021-10-22
+# Date: 2024-10-22
 # Decision: added method to make an id for the artifact
 # Status: Accepted
 # Motivation: Instantiate the attributes of the artifact class. make use of base64
